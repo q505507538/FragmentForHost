@@ -1,0 +1,113 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="502px"
+        android:layout_height="match_parent"
+        android:layout_weight="502"
+        android:orientation="vertical">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="64px"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/cuanti_soudong"
+                android:layout_width="250px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="手动"
+                android:textColor="#2960dc"/>
+
+            <TextView
+                android:id="@+id/cuanti_auto"
+                android:layout_width="250px"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:gravity="center"
+                android:text="自动"
+                android:textColor="#898989"/>
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="#2960dc"/>
+
+            <View
+                android:layout_width="0dp"
+                android:layout_height="1dip"
+                android:layout_weight="1"
+                android:background="#ffffff"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="fill_parent"
+            android:layout_height="1dip"
+            android:background="#d2d2d2"/>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/qibeiButton"
+                android:layout_width="139px"
+                android:layout_height="38px"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/起背"/>
+
+            <Button
+                android:id="@+id/qibeiButton1"
+                android:layout_width="139px"
+                android:layout_height="38px"
+                android:layout_marginLeft="30dp"
+                android:layout_marginTop="30dp"
+                android:layout_marginRight="10dp"
+                android:background="@drawable/起背"/>
+        </LinearLayout>
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dip"
+        android:layout_height="fill_parent"
+        android:background="#d2d2d2"/>
+
+    <LinearLayout
+        android:layout_width="780px"
+        android:layout_height="wrap_content"
+        android:layout_weight="781"
+        android:orientation="horizontal">
+
+        <TextView
+            android:id="@+id/cuanti_soudong1"
+            android:layout_width="250px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="手动"
+            android:textColor="#2960dc"/>
+
+        <TextView
+            android:id="@+id/cuanti_auto1"
+            android:layout_width="250px"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:text="自动"
+            android:textColor="#898989"/>
+    </LinearLayout>
+</LinearLayout>
