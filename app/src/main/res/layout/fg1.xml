@@ -18,12 +18,13 @@
             android:orientation="horizontal">
 
             <LinearLayout
-                android:id="@+id/layout_cuanti_soudong"
+                android:id="@+id/ll_cuanti_soudong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/tv_cuanti_soudong"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -33,12 +34,13 @@
             </LinearLayout>
 
             <LinearLayout
-                android:id="@+id/layout_cuanti_zidong"
+                android:id="@+id/ll_cuanti_zidong"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:layout_weight="1">
 
                 <TextView
+                    android:id="@+id/tv_cuanti_zidong"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_gravity="center"
@@ -80,13 +82,16 @@
 
             <!-- 手动 -->
             <LinearLayout
+                android:id="@+id/ll_cuanti_soudong_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
                 android:layout_marginTop="60px"
-                android:orientation="vertical">
+                android:orientation="vertical"
+                android:visibility="visible">
                 <!-- 复位床体-->
                 <LinearLayout
+                    android:id="@+id/ll_cuangti_reset"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
@@ -109,17 +114,17 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_qibei"
+                        android:id="@+id/btn_cuangti_qibei"
                         android:layout_width="139px"
                         android:layout_height="38px"
-                        android:background="@drawable/btn_qibei" />
+                        android:background="@drawable/btn_cuangti_qibei" />
 
                     <Button
-                        android:id="@+id/btn_tangping"
+                        android:id="@+id/btn_cuangti_tangping"
                         android:layout_width="139px"
                         android:layout_height="38px"
                         android:layout_marginLeft="19px"
-                        android:background="@drawable/btn_tangping" />
+                        android:background="@drawable/btn_cuangti_tangping" />
                 </LinearLayout>
 
                 <!-- 抬腿-下腿 -->
@@ -131,17 +136,17 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_xiatui"
+                        android:id="@+id/btn_cuangti_xiatui"
                         android:layout_width="139px"
                         android:layout_height="38px"
-                        android:background="@drawable/btn_qibei" />
+                        android:background="@drawable/btn_cuangti_xiatui" />
 
                     <Button
-                        android:id="@+id/btn_taitui"
+                        android:id="@+id/btn_cuangti_taitui"
                         android:layout_width="139px"
                         android:layout_height="38px"
                         android:layout_marginLeft="19px"
-                        android:background="@drawable/btn_taitui" />
+                        android:background="@drawable/btn_cuangti_taitui" />
                 </LinearLayout>
 
                 <!-- 左翻身-右翻身 -->
@@ -153,22 +158,23 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_zuofansen"
+                        android:id="@+id/btn_cuangti_zuofansen"
                         android:layout_width="139px"
                         android:layout_height="38px"
-                        android:background="@drawable/btn_zuofansen" />
+                        android:background="@drawable/btn_cuangti_zuofansen" />
 
                     <Button
-                        android:id="@+id/btn_youfansen"
+                        android:id="@+id/btn_cuangti_youfansen"
                         android:layout_width="139px"
                         android:layout_height="38px"
                         android:layout_marginLeft="19px"
-                        android:background="@drawable/btn_youfansen" />
+                        android:background="@drawable/btn_cuangti_youfansen" />
                 </LinearLayout>
             </LinearLayout>
 
             <!-- 自动 -->
             <LinearLayout
+                android:id="@+id/ll_cuanti_zidong_content"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_gravity="center"
@@ -193,7 +199,7 @@
                         android:textSize="19.93px" />
 
                     <Button
-                        android:id="@+id/btn_zidongfansen"
+                        android:id="@+id/btn_cuangti_zidongfansen"
                         android:layout_width="69px"
                         android:layout_height="34px"
                         android:layout_marginLeft="180px"
@@ -237,7 +243,7 @@
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="14px"
-                        android:background="@drawable/et_n"
+                        android:background="@drawable/edt_n"
                         android:gravity="center"
                         android:hint="10" />
 
@@ -281,7 +287,7 @@
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="14px"
-                        android:background="@drawable/et_n"
+                        android:background="@drawable/edt_n"
                         android:gravity="center"
                         android:hint="120" />
 
@@ -316,7 +322,7 @@
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="41px"
+                        android:layout_marginLeft="36.5px"
                         android:background="@drawable/btn_sub" />
 
                     <EditText
@@ -325,7 +331,7 @@
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="14px"
-                        android:background="@drawable/et_n"
+                        android:background="@drawable/edt_n"
                         android:gravity="center"
                         android:hint="3" />
 
