@@ -31,19 +31,19 @@ public class Fragment1 extends Fragment {
     @ViewById
     View zidong_selected;
 
-    @ViewById
+    @ViewById // 起背按钮
     Button btn_cuangti_qibei;
-    @ViewById
+    @ViewById // 躺平按钮
     Button btn_cuangti_tangping;
-    @ViewById
+    @ViewById // 下腿按钮
     Button btn_cuangti_xiatui;
-    @ViewById
+    @ViewById // 抬腿按钮
     Button btn_cuangti_taitui;
-    @ViewById
+    @ViewById // 左翻身
     Button btn_cuangti_zuofansen;
-    @ViewById
+    @ViewById // 右翻身
     Button btn_cuangti_youfansen;
-    @ViewById
+    @ViewById // 自动翻身
     Button btn_cuangti_zidongfansen;
 
     Boolean buttonFlag[] = {true,true,true,true,true,true,true};

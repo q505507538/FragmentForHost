@@ -1,14 +1,746 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#BDFCC9"
-    android:gravity="center"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
+    <!-- 左边 -->
+    <LinearLayout
+        android:layout_width="502px"
+        android:layout_height="match_parent"
+        android:layout_weight="502"
+        android:orientation="vertical">
+
+        <!-- 锻炼参数 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="57px"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:gravity="left"
+                android:text="锻炼参数"
+                android:textColor="#707070"
+                android:textSize="17.93px" />
+
+            <Button
+                android:id="@+id/btn_xiazikangfu_sangcicansu"
+                android:layout_width="92px"
+                android:layout_height="34px"
+                android:layout_marginLeft="110dp"
+                android:background="@drawable/btn_sangcicansu" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="382px"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16px"
+            android:layout_gravity="center_horizontal"
+            android:orientation="horizontal">
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_gravity="left"
+            android:layout_marginLeft="40px"
+            android:orientation="vertical">
+
+            <!-- 锻炼时长 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="28px"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="锻炼时长:"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+
+                <Button
+                    android:id="@+id/btn_duanliansicang_sub"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="22px"
+                    android:background="@drawable/btn_sub" />
+
+                <EditText
+                    android:id="@+id/edt_xiazikangfu_duanliansicang"
+                    android:layout_width="102px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:background="@drawable/edt_n"
+                    android:gravity="center"
+                    android:hint="10" />
+
+                <Button
+                    android:id="@+id/btn_duanliansicang_add"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15px"
+                    android:background="@drawable/btn_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_gravity="center_vertical"
+                    android:text="分"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+            </LinearLayout>
+
+            <!-- 角速度 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="28px"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="角速度:"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+
+                <Button
+                    android:id="@+id/btn_jiaosudu_sub"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="35px"
+                    android:background="@drawable/btn_sub" />
+
+                <EditText
+                    android:id="@+id/edt_xiazikangfu_jiaosudu"
+                    android:layout_width="102px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:background="@drawable/edt_n"
+                    android:gravity="center"
+                    android:hint="3" />
+
+                <Button
+                    android:id="@+id/btn_jiaosudu_add"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15px"
+                    android:background="@drawable/btn_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_gravity="center_vertical"
+                    android:text="度/秒"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+            </LinearLayout>
+
+            <!-- 起始角度 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="28px"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="起始角度:"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+
+                <Button
+                    android:id="@+id/btn_qisijiaodu_sub"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="18px"
+                    android:background="@drawable/btn_sub" />
+
+                <EditText
+                    android:id="@+id/edt_xiazikangfu_qisijiaodu"
+                    android:layout_width="102px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:background="@drawable/edt_n"
+                    android:gravity="center"
+                    android:hint="0" />
+
+                <Button
+                    android:id="@+id/btn_qisijiaodu_add"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15px"
+                    android:background="@drawable/btn_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_gravity="center_vertical"
+                    android:text="度"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+            </LinearLayout>
+
+            <!-- 结束角度 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="28px"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="结束角度:"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+
+                <Button
+                    android:id="@+id/btn_jiesujiaodu_sub"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="23px"
+                    android:background="@drawable/btn_sub" />
+
+                <EditText
+                    android:id="@+id/edt_xiazikangfu_jiesujiaodu"
+                    android:layout_width="102px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:background="@drawable/edt_n"
+                    android:gravity="center"
+                    android:hint="180" />
+
+                <Button
+                    android:id="@+id/btn_jiesujiaodu_add"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15px"
+                    android:background="@drawable/btn_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_gravity="center_vertical"
+                    android:text="度"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+            </LinearLayout>
+
+            <!-- 缓冲角度 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="28px"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="缓冲角度:"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+
+                <Button
+                    android:id="@+id/btn_huancongjiaodu_sub"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="24px"
+                    android:background="@drawable/btn_sub" />
+
+                <EditText
+                    android:id="@+id/edt_xiazikangfu_huancongjiaodu"
+                    android:layout_width="102px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:background="@drawable/edt_n"
+                    android:gravity="center"
+                    android:hint="5" />
+
+                <Button
+                    android:id="@+id/btn_huancongjiaodu_add"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15px"
+                    android:background="@drawable/btn_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_gravity="center_vertical"
+                    android:text="度"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+            </LinearLayout>
+
+            <!-- 停留时长 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:layout_marginTop="28px"
+                android:orientation="horizontal">
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center_vertical"
+                    android:text="停留时长:"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+
+                <Button
+                    android:id="@+id/btn_tingliusicang_sub"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="24px"
+                    android:background="@drawable/btn_sub" />
+
+                <EditText
+                    android:id="@+id/edt_xiazikangfu_tingliusicang"
+                    android:layout_width="102px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="14px"
+                    android:background="@drawable/edt_n"
+                    android:gravity="center"
+                    android:hint="5" />
+
+                <Button
+                    android:id="@+id/btn_tingliusicang_add"
+                    android:layout_width="38px"
+                    android:layout_height="38px"
+                    android:layout_gravity="center_vertical"
+                    android:layout_marginLeft="15px"
+                    android:background="@drawable/btn_add" />
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="10px"
+                    android:layout_gravity="center_vertical"
+                    android:text="秒"
+                    android:textColor="#707070"
+                    android:textSize="17.93px" />
+            </LinearLayout>
+
+            <!-- 机器准备-开始锻炼 -->
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="right"
+                android:layout_marginTop="33px"
+                android:orientation="horizontal">
+
+                <Button
+                    android:id="@+id/btn_xiazikangfu_jiqizunbei"
+                    android:layout_width="185px"
+                    android:layout_height="51px"
+                    android:background="@drawable/btn_jiqizunbei_normal" />
+
+                <Button
+                    android:id="@+id/btn_xiazikangfu_kaisiduanlian"
+                    android:layout_width="185px"
+                    android:layout_height="51px"
+                    android:layout_marginLeft="19px"
+                    android:background="@drawable/btn_kaisiduanlian_disable" />
+            </LinearLayout>
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <View
+        android:layout_width="1dip"
+        android:layout_height="fill_parent"
+        android:background="#d2d2d2" />
+
+    <!-- 右边 -->
+    <LinearLayout
+        android:layout_width="780px"
         android:layout_height="wrap_content"
-        android:text="下肢康复" />
+        android:layout_weight="781"
+        android:orientation="vertical">
 
+        <ImageView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="191px"
+            android:layout_marginTop="50px"
+            android:background="@drawable/img_xiazikangfu" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="203px"
+                android:text="实时角度： 180度"
+                android:textColor="#408650"
+                android:textSize="17.93px" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="80px"
+                android:text="锻炼时长：18分"
+                android:textColor="#408650"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_vertical"
+            android:gravity="center_vertical"
+            android:layout_marginTop="30px"
+            android:layout_marginLeft="44.3px"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="历史记录"
+                android:textColor="#707070"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="13px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="54px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="今天               锻炼时长:2          锻炼次数:42                                                                  " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginTop="13px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="操作                操作者             时间                自动/手动        开始角度          结束角度" />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="左翻身              电脑         10月29号 15:12      自动                   67°                                " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="左翻身              电脑         10月29号 15:12      自动                   67°                                " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="左翻身              电脑         10月29号 15:12      自动                   67°                                " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="左翻身              电脑         10月29号 15:12      自动                   67°                                " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="左翻身              电脑         10月29号 15:12      自动                   67°                                " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="39px"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:gravity="center_horizontal"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:textSize="17.93px"
+                android:layout_gravity="center_horizontal|center_vertical"
+                android:gravity="center_horizontal|center_vertical"
+                android:text="左翻身              电脑         10月29号 15:12      自动                   67°                                " />
+
+            <View
+                android:layout_width="2dip"
+                android:layout_height="fill_parent"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_marginLeft="44px"
+            android:layout_marginRight="41px"
+            android:orientation="horizontal">
+
+            <View
+                android:layout_width="fill_parent"
+                android:layout_height="1dip"
+                android:background="#d2d2d2" />
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

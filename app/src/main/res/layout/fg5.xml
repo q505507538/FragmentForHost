@@ -1,14 +1,388 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="#BDFCC9"
-    android:gravity="center"
-    android:orientation="vertical" >
+              android:layout_width="match_parent"
+              android:layout_height="match_parent"
+              android:background="#ffffff"
+              android:orientation="horizontal">
 
-    <TextView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="系统设置" />
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
 
+        <!-- 患者信息 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="患者信息"
+                android:textSize="17.93px"/>
+        </LinearLayout>
+
+        <View
+            android:layout_width="550px"
+            android:layout_height="1dip"
+            android:layout_marginTop="20px"
+            android:background="#d2d2d2"
+            android:layout_gravity="center_horizontal"/>
+
+        <!-- 患者信息表单 -->
+
+        <!-- 患者姓名 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="50px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="患者姓名:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="20dip"
+                android:layout_marginLeft="5px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <!-- 患者年龄 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="患者年龄:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="20dip"
+                android:layout_marginLeft="10px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <!-- 患者性别 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="患者性别:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="20dip"
+                android:layout_marginLeft="10px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <!-- 行动能力 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="行动能力:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="20dip"
+                android:layout_marginLeft="10px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <!-- 意识能力 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="意识能力:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="20dip"
+                android:layout_marginLeft="10px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <!-- 尿失禁 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="center_vertical"
+                android:text="尿失禁:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="20dip"
+                android:layout_marginLeft="23px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="true"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+        <!-- 备注信息 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:gravity="top"
+                android:text="备注信息:"
+                android:textSize="17.93px"/>
+
+            <EditText
+                android:layout_width="200dip"
+                android:layout_height="50dip"
+                android:layout_marginLeft="10px"
+                android:background="@drawable/edittext_selector"
+                android:gravity="center_vertical"
+                android:singleLine="false"
+                android:textColor="#000000"
+                android:textSize="17.93px" />
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1"
+        android:orientation="vertical">
+
+        <!-- 系统设置 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="系统设置"
+                android:textSize="17.93px"/>
+        </LinearLayout>
+
+        <!-- 音量 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_yinliang"/>
+        </LinearLayout>
+
+        <!-- 帮助 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_bangzu"/>
+        </LinearLayout>
+
+        <!-- 关于 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_guanyu"/>
+        </LinearLayout>
+
+        <!-- 退出登入 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_tuicudengru"/>
+        </LinearLayout>
+
+        <!-- 数据操作 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="30px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <TextView
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="数据操作"
+                android:textSize="17.93px"/>
+        </LinearLayout>
+
+        <!-- 数据导出 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_sujudaocu"/>
+        </LinearLayout>
+
+        <!-- 清楚用户数据 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_qingcuyonghusuju"/>
+        </LinearLayout>
+
+        <!-- 恢复出厂值 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginLeft="30px"
+            android:layout_gravity="left"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="520px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_huihucucangzi"/>
+        </LinearLayout>
+
+        <!-- 拔出U盘 -->
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20px"
+            android:layout_marginRight="48px"
+            android:layout_gravity="right"
+            android:orientation="horizontal">
+
+            <Button
+                android:layout_width="197px"
+                android:layout_height="47px"
+                android:background="@drawable/btn_xitongsezi_bacuyoupan"/>
+        </LinearLayout>
+    </LinearLayout>
 </LinearLayout>

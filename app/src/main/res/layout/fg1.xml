@@ -5,6 +5,7 @@
     android:background="#ffffff"
     android:orientation="horizontal">
 
+    <!-- 左边 -->
     <LinearLayout
         android:layout_width="502px"
         android:layout_height="match_parent"
@@ -238,7 +239,7 @@
                         android:background="@drawable/btn_sub" />
 
                     <EditText
-                        android:id="@+id/et_zidongfansen"
+                        android:id="@+id/edt_zidongfansen"
                         android:layout_width="102px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
@@ -282,7 +283,7 @@
                         android:background="@drawable/btn_sub" />
 
                     <EditText
-                        android:id="@+id/et_fansenjiaodu"
+                        android:id="@+id/edt_fansenjiaodu"
                         android:layout_width="102px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
@@ -326,7 +327,7 @@
                         android:background="@drawable/btn_sub" />
 
                     <EditText
-                        android:id="@+id/et_zongsicang"
+                        android:id="@+id/edt_zongsicang"
                         android:layout_width="102px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
@@ -353,6 +354,7 @@
         android:layout_height="fill_parent"
         android:background="#d2d2d2" />
 
+    <!-- 右边 -->
     <LinearLayout
         android:layout_width="780px"
         android:layout_height="wrap_content"
