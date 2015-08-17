@@ -1,6 +1,6 @@
 package com.jay.android.fragmentforhost;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -10,7 +10,7 @@ import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-@EFragment(R.layout.fg1)
+@EFragment(R.layout.fragment_1)
 public class Fragment1 extends Fragment {
     @ViewById
     LinearLayout ll_cuanti_soudong;

@@ -1,13 +1,13 @@
 package com.jay.android.fragmentforhost;
 
-import android.support.v4.app.Fragment;
+import android.app.Fragment;
 import android.widget.Button;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.ViewById;
 
-@EFragment(R.layout.fg3)
+@EFragment(R.layout.fragment_3)
 public class Fragment3 extends Fragment {
     @ViewById   // 机器准备按钮
     Button btn_sangzikangfu_jiqizunbei;

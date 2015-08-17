@@ -3,144 +3,24 @@
               android:layout_height="match_parent"
               android:orientation="vertical">
 
-    <LinearLayout
+    <fragment
+        android:id="@+id/fg_top"
+        android:name="com.jay.android.fragmentforhost.TopFragment_"
         android:layout_width="match_parent"
         android:layout_height="0dp"
-        android:orientation="horizontal"
-        android:layout_weight="1">
-
-        <LinearLayout
-            android:id="@+id/tab_1_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/tab_1_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_1"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <!-- 床体 -->
-        <LinearLayout
-            android:id="@+id/cuangti_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/cuangti_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_2_n"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <!-- 大小便 -->
-        <LinearLayout
-            android:id="@+id/daxiaobian_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/daxiaobian_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_3_n"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <!-- 上肢康复 -->
-        <LinearLayout
-            android:id="@+id/sangzikangfu_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/sangzikangfu_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_4_n"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <!-- 下肢康复 -->
-        <LinearLayout
-            android:id="@+id/xiazikangfu_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/xiazikangfu_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_5_n"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <!-- 系统设置 -->
-        <LinearLayout
-            android:id="@+id/xitongsezi_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/xitongsezi_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_6_n"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <LinearLayout
-            android:id="@+id/tab_7_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/tab_7_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_7"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-
-        <!-- 急停 -->
-        <LinearLayout
-            android:id="@+id/stop_layout"
-            android:layout_width="wrap_content"
-            android:layout_height="match_parent"
-            android:layout_weight="1">
-
-            <ImageView
-                android:id="@+id/stop_image"
-                android:layout_width="match_parent"
-                android:layout_height="fill_parent"
-                android:src="@drawable/tab_8"
-                android:scaleType="fitXY"/>
-
-        </LinearLayout>
-    </LinearLayout>
+        android:layout_weight="1"/>
 
     <FrameLayout
-        android:id="@+id/content"
+        android:id="@+id/fl_bottom"
         android:layout_width="match_parent"
         android:layout_height="0dp"
         android:layout_weight="8">
+
+        <fragment
+            android:id="@+id/fg_bottom"
+            android:name="com.jay.android.fragmentforhost.Fragment1_"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"/>
     </FrameLayout>
 
 </LinearLayout>
