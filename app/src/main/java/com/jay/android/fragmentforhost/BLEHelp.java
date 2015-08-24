@@ -1,15 +1,9 @@
 package com.jay.android.fragmentforhost;
 
 import android.app.Activity;
-import android.app.Fragment;
-import android.app.ProgressDialog;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Handler;
 import android.util.Log;
-import android.view.View;
-import android.widget.Button;
-import android.widget.LinearLayout;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.mt.ble.mtble.MTBLEMBLE;
@@ -17,72 +11,20 @@ import com.mt.help.LogText;
 import com.sdk.ble.MTBLEManager;
 import com.sdk.help.Helpful;
 
-import org.androidannotations.annotations.Click;
-import org.androidannotations.annotations.EFragment;
-import org.androidannotations.annotations.ViewById;
-
-@EFragment(R.layout.fragment_1)
-public class Fragment1 extends Fragment {
+public class BLEHelp {
 
     private MTBLEManager mMTBLEManager;
     private MTBLEMBLE mBle;
     private Handler handl = new Handler();
-    private byte[] sendbytes = null;
+
     private Activity activity;
 
-    @ViewById
-    LinearLayout ll_cuanti_soudong;
-    @ViewById
-    LinearLayout ll_cuanti_zidong;
-    @ViewById
-    LinearLayout ll_cuanti_soudong_content;
-    @ViewById
-    LinearLayout ll_cuanti_zidong_content;
-
-    @ViewById
-    TextView tv_cuanti_soudong;
-    @ViewById
-    TextView tv_cuanti_zidong;
-
-    @ViewById
-    View soudong_selected;
-    @ViewById
-    View zidong_selected;
-
-    @ViewById // 起背按钮
-    Button btn_cuangti_qibei;
-    @ViewById // 躺平按钮
-    Button btn_cuangti_tangping;
-    @ViewById // 下腿按钮
-    Button btn_cuangti_xiatui;
-    @ViewById // 抬腿按钮
-    Button btn_cuangti_taitui;
-    @ViewById // 左翻身
-    Button btn_cuangti_zuofansen;
-    @ViewById // 右翻身
-    Button btn_cuangti_youfansen;
-    @ViewById // 自动翻身
-    Button btn_cuangti_zidongfansen;
-
-    Boolean buttonFlag[] = {true,true,true,true,true,true,true};
-
-    @Click(R.id.ll_cuanti_soudong)
-    void cuantiSoudongLayoutClicked() { setChioceItem(0); }
-
-    @Click(R.id.ll_cuanti_zidong)
-    void cuantiZidongLayoutClicked() {
-        setChioceItem(1);
-    }
-
-    BLEHelp bleHelp = null;
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
+    public BLEHelp(Activity activity) {
         this.activity = activity;
-        bleHelp = new BLEHelp(activity);
+        initBLE();
     }
 
-//    初始化BLE
+    //    初始化BLE
 //    private static final String mac = "F4:B8:5E:E6:98:AC";
     private static final String mac = "78:A5:04:8D:18:2A";
 
@@ -103,7 +45,7 @@ public class Fragment1 extends Fragment {
     // 显示接收数据和命令
     private boolean disDatas(final BluetoothGattCharacteristic data_char) {
         Log.i("Fragment1", "正在接收数据");
-//        Toast.makeText(activity, "正在接收数据", Toast.LENGTH_SHORT).show();
+        Toast.makeText(activity, "正在接收数据", Toast.LENGTH_SHORT).show();
 
         handl.post(new Runnable() {
             @Override
@@ -114,7 +56,7 @@ public class Fragment1 extends Fragment {
                         break;
                     case 1: // 16进制
                         Log.i("Fragment1", Helpful.MYBytearrayToString(data_char.getValue()));
-//                        Toast.makeText(activity, Helpful.MYBytearrayToString(data_char.getValue()), Toast.LENGTH_SHORT).show();
+                        Toast.makeText(activity, Helpful.MYBytearrayToString(data_char.getValue()), Toast.LENGTH_SHORT).show();
                         break;
                     case 2: // 10进制
                         int count = 0;
@@ -134,7 +76,7 @@ public class Fragment1 extends Fragment {
     }
 
     // 获取发送数据
-    private byte[] getSendDatas(String tmp_str, int type, boolean dis_flag) {
+    public byte[]  getSendDatas(String tmp_str, int type, boolean dis_flag) {
         byte[] tmp_byte = null;
         byte[] write_msg_byte = null;
 
@@ -279,133 +221,11 @@ public class Fragment1 extends Fragment {
     }
 
     // 发送数据
-    private boolean sendDatas(byte[] value) {
+    public boolean sendDatas(byte[] value) {
         if (value == null) {
             return false;
         }
         mBle.sendData(value);
         return true;
-    }
-
-    // 滑块选择处理(手动,自动)
-    public void setChioceItem(int index) {
-        switch (index) {
-            case 0:
-                tv_cuanti_soudong.setTextColor(0xff2960dc);
-                tv_cuanti_zidong.setTextColor(0xff898989);
-                soudong_selected.setBackgroundColor(0xff2960dc);
-                zidong_selected.setBackgroundColor(0xffffffff);
-                ll_cuanti_soudong_content.setVisibility(View.VISIBLE);
-                ll_cuanti_zidong_content.setVisibility(View.GONE);
-                break;
-            case 1:
-                tv_cuanti_soudong.setTextColor(0xff898989);
-                tv_cuanti_zidong.setTextColor(0xff2960dc);
-                soudong_selected.setBackgroundColor(0xffffffff);
-                zidong_selected.setBackgroundColor(0xff2960dc);
-                ll_cuanti_soudong_content.setVisibility(View.GONE);
-                ll_cuanti_zidong_content.setVisibility(View.VISIBLE);
-                break;
-        }
-    }
-
-    // 起背按钮
-    @Click(R.id.btn_cuangti_qibei)
-    void qibeiButtonClicked() {
-        if(buttonFlag[0]) {
-//            sendbytes = getSendDatas("b1010a010000001b11220d0a", 1, true);
-            sendbytes = bleHelp.getSendDatas("b1010a010000001b11220d0a", 1, true);
-            btn_cuangti_qibei.setBackgroundResource(R.drawable.btn_stop);
-        } else {
-//            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-            sendbytes = bleHelp.getSendDatas("b1010a000000001b11220d0a", 1, true);
-            btn_cuangti_qibei.setBackgroundResource(R.drawable.btn_cuangti_qibei);
-        }
-        buttonFlag[0] = !buttonFlag[0];
-        bleHelp.sendDatas(sendbytes);
-    }
-
-    // 躺平按钮
-    @Click(R.id.btn_cuangti_tangping)
-    void tangpingButtonClicked() {
-        if(buttonFlag[1]) {
-            sendbytes = getSendDatas("b1010a000100001b11220d0a", 1, true);
-            btn_cuangti_tangping.setBackgroundResource(R.drawable.btn_stop);
-        } else {
-            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-            btn_cuangti_tangping.setBackgroundResource(R.drawable.btn_cuangti_tangping);
-        }
-        buttonFlag[1] = !buttonFlag[1];
-        sendDatas(sendbytes);
-    }
-
-    // 下腿按钮
-    @Click(R.id.btn_cuangti_xiatui)
-    void xiatuiButtonClicked() {
-        if(buttonFlag[2]) {
-            sendbytes = getSendDatas("b1010a000000011b11220d0a", 1, true);
-            btn_cuangti_xiatui.setBackgroundResource(R.drawable.btn_stop);
-        } else {
-            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-            btn_cuangti_xiatui.setBackgroundResource(R.drawable.btn_cuangti_xiatui);
-        }
-        buttonFlag[2] = !buttonFlag[2];
-        sendDatas(sendbytes);
-    }
-
-    // 抬腿按钮
-    @Click(R.id.btn_cuangti_taitui)
-    void taituiButtonClicked() {
-        if(buttonFlag[3]) {
-            sendbytes = getSendDatas("b1010a000001001b11220d0a", 1, true);
-            btn_cuangti_taitui.setBackgroundResource(R.drawable.btn_stop);
-        } else {
-            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-            btn_cuangti_taitui.setBackgroundResource(R.drawable.btn_cuangti_taitui);
-        }
-        buttonFlag[3] = !buttonFlag[3];
-        sendDatas(sendbytes);
-    }
-
-    // 左翻身按钮
-    @Click(R.id.btn_cuangti_zuofansen)
-    void zuofansenButtonClicked() {
-        if(buttonFlag[4]) {
-            sendbytes = getSendDatas("b2020a000100002b11220d0a", 1, true);
-            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_stop);
-        } else {
-            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_cuangti_zuofansen);
-        }
-        buttonFlag[4] = !buttonFlag[4];
-        sendDatas(sendbytes);
-    }
-
-    // 右翻身按钮
-    @Click(R.id.btn_cuangti_youfansen)
-    void youfansenButtonClicked() {
-        if(buttonFlag[5]) {
-            sendbytes = getSendDatas("b2020a010000002b11220d0a", 1, true);
-            btn_cuangti_youfansen.setBackgroundResource(R.drawable.btn_stop);
-        } else {
-            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-            btn_cuangti_youfansen.setBackgroundResource(R.drawable.btn_cuangti_youfansen);
-        }
-        buttonFlag[5] = !buttonFlag[5];
-        sendDatas(sendbytes);
-    }
-
-    // 自动翻身按钮
-    @Click(R.id.btn_cuangti_zidongfansen)
-    void zidongfansenButtonClicked() {
-        if(buttonFlag[6]) {
-            sendbytes = getSendDatas("b2020a000001002b11220d0a", 1, true);
-            btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_off);
-        } else {
-            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-            btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_on);
-        }
-        buttonFlag[6] = !buttonFlag[6];
-        sendDatas(sendbytes);
     }
 }

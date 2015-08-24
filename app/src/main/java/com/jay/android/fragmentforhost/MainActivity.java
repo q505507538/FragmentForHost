@@ -4,21 +4,12 @@ import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothGattCharacteristic;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
-import android.os.Handler;
 import android.view.Window;
 import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.Toast;
-
-import com.mt.ble.mtble.MTBLEMBLE;
-import com.mt.help.LogText;
-import com.sdk.ble.MTBLEManager;
-import com.sdk.help.Helpful;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
