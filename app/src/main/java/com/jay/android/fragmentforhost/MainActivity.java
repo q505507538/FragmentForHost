@@ -17,7 +17,7 @@ import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
 public class MainActivity extends Activity {
-
+    private byte[] sendbytes = null;
     // 定义五个Fragment的对象
     private Fragment1_ fg1 = new Fragment1_();
     private Fragment2_ fg2 = new Fragment2_();
@@ -46,12 +46,16 @@ public class MainActivity extends Activity {
     ImageView xiazikangfu_image;
     @ViewById
     ImageView xitongsezi_image;
+    @ViewById // 急停按钮
+    LinearLayout stop_layout;
 
+    BLEHelp bleHelp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE); // 隐藏标题
         getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN, WindowManager.LayoutParams.FLAG_FULLSCREEN);// 设置全屏
+        bleHelp = new BLEHelp(MainActivity.this);
     }
 
     @Override
@@ -114,5 +118,12 @@ public class MainActivity extends Activity {
         sangzikangfu_image.setImageResource(R.drawable.tab_4_n);
         xiazikangfu_image.setImageResource(R.drawable.tab_5_n);
         xitongsezi_image.setImageResource(R.drawable.tab_6_n);
+    }
+
+    // 急停按钮
+    @Click(R.id.stop_layout)
+    void stopButtonClicked() {
+        sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
+        bleHelp.sendDatas(sendbytes);
     }
 }
