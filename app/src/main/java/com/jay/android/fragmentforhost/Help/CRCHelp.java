@@ -1,4 +1,4 @@
-package com.jay.android.fragmentforhost;
+package com.jay.android.fragmentforhost.Help;
 
 public class CRCHelp {
     static byte[] crc16_tab_h = { (byte) 0x00, (byte) 0xC1, (byte) 0x81, (byte) 0x40, (byte) 0x01, (byte) 0xC0, (byte) 0x80, (byte) 0x41, (byte) 0x01, (byte) 0xC0, (byte) 0x80, (byte) 0x41,

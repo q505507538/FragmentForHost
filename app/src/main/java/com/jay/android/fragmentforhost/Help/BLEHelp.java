@@ -1,11 +1,11 @@
-package com.jay.android.fragmentforhost;
+package com.jay.android.fragmentforhost.Help;
 
 import android.app.Activity;
 import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Handler;
-import android.util.Log;
 import android.widget.Toast;
 
+import com.jay.android.fragmentforhost.Utils.UIUtils;
 import com.mt.ble.mtble.MTBLEMBLE;
 import com.mt.help.LogText;
 import com.sdk.ble.MTBLEManager;
@@ -25,7 +25,8 @@ public class BLEHelp {
     }
 
     //    初始化BLE
-//    private static final String mac = "F4:B8:5E:E6:98:AC";
+//    private static final String mac = "F4:B8:5E:E6:98:AC"; // 冯明敏
+//    private static final String mac = "F4:B8:5E:E6:8C:1F"; // 吴海滨
     private static final String mac = "78:A5:04:8D:18:2A";
 
     private void initBLE() {
@@ -38,25 +39,22 @@ public class BLEHelp {
         mBle = new MTBLEMBLE(activity, mMTBLEManager.mBluetoothManager, mMTBLEManager.mBluetoothAdapter);
 
         mBle.setCallback(blecallback);
-
         new connectThread().start();
     }
 
     // 显示接收数据和命令
     private boolean disDatas(final BluetoothGattCharacteristic data_char) {
-        Log.i("Fragment1", "正在接收数据");
-        Toast.makeText(activity, "正在接收数据", Toast.LENGTH_SHORT).show();
-
+//        UIUtils.showToastSafe("正在接收数据");
         handl.post(new Runnable() {
             @Override
             public void run() {
                 switch (1) {
                     case 0: // String
-                        Toast.makeText(activity, data_char.getStringValue(0), Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity, data_char.getStringValue(0), Toast.LENGTH_SHORT).show();
                         break;
                     case 1: // 16进制
-                        Log.i("Fragment1", Helpful.MYBytearrayToString(data_char.getValue()));
-                        Toast.makeText(activity, Helpful.MYBytearrayToString(data_char.getValue()), Toast.LENGTH_SHORT).show();
+                        UIUtils.showToastSafe(Helpful.MYBytearrayToString(data_char.getValue()));
+//                        Toast.makeText(activity, Helpful.MYBytearrayToString(data_char.getValue()), Toast.LENGTH_SHORT).show();
                         break;
                     case 2: // 10进制
                         int count = 0;
@@ -65,7 +63,7 @@ public class BLEHelp {
                             count *= 256;
                             count += (tmp_byte[tmp_byte.length - 1 - i] & 0xFF);
                         }
-                        Toast.makeText(activity, "" + count, Toast.LENGTH_SHORT).show();
+//                        Toast.makeText(activity, "" + count, Toast.LENGTH_SHORT).show();
                         break;
                     default:
                         break;
@@ -201,17 +199,18 @@ public class BLEHelp {
                         }
 
                     });
-                }else{
-                    handl.post(new Runnable() {
-
-                        @Override
-                        public void run() {
-//                            pd.dismiss();
-                            Toast.makeText(activity, "连接成功", Toast.LENGTH_LONG).show();
-                        }
-
-                    });
                 }
+//                else{
+//                    handl.post(new Runnable() {
+//
+//                        @Override
+//                        public void run() {
+////                            pd.dismiss();
+//                            Toast.makeText(activity, "连接成功", Toast.LENGTH_LONG).show();
+//                        }
+//
+//                    });
+//                }
 
             } catch (Exception e) {
                 LogText.writeStr("MTBeacon1Set AsyDataThread->" + e.toString());
