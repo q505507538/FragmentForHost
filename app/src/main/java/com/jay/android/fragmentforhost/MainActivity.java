@@ -1,9 +1,9 @@
 package com.jay.android.fragmentforhost;
 
-import android.app.Activity;
 import android.app.Fragment;
 import android.app.FragmentManager;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
 import android.view.Window;
@@ -11,13 +11,18 @@ import android.view.WindowManager;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 
+import com.jay.android.fragmentforhost.Help.BLEHelp;
+import com.jay.android.fragmentforhost.Help.CRCHelp;
+import com.jay.android.fragmentforhost.Utils.UIUtils;
+
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EActivity;
 import org.androidannotations.annotations.ViewById;
 
 @EActivity(R.layout.activity_main)
-public class MainActivity extends Activity {
+public class MainActivity extends BaseActivity {
     private byte[] sendbytes = null;
+    Intent intent;
     // 定义五个Fragment的对象
     private Fragment1_ fg1 = new Fragment1_();
     private Fragment2_ fg2 = new Fragment2_();
@@ -67,6 +72,16 @@ public class MainActivity extends Activity {
             setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_LANDSCAPE);
         }
         super.onResume();
+    }
+
+    @Override
+    protected void initView() {
+
+    }
+
+    @Override
+    protected void initData() {
+
     }
 
     @Click(R.id.cuangti_layout)
@@ -125,5 +140,6 @@ public class MainActivity extends Activity {
     void stopButtonClicked() {
         sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
         bleHelp.sendDatas(sendbytes);
+        UIUtils.showToastSafe("急停b3030a010000003b11220d0a");
     }
 }

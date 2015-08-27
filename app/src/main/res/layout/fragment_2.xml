@@ -115,7 +115,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="65px"
                 android:orientation="vertical"
-                android:visibility="gone">
+                android:visibility="visible">
 
                 <!-- 排污处理 -->
                 <LinearLayout
@@ -282,7 +282,7 @@
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
                         android:gravity="left"
-                        android:text="自动处理大小便"
+                        android:text="自动换气除臭"
                         android:textColor="#000000"
                         android:textSize="19.93px"/>
 
@@ -290,7 +290,7 @@
                         android:id="@+id/btn_daxiaobian_zidonghuanqicucou"
                         android:layout_width="69px"
                         android:layout_height="34px"
-                        android:layout_marginLeft="180px"
+                        android:layout_marginLeft="200px"
                         android:background="@drawable/btn_off"/>
 
                 </LinearLayout>
@@ -304,7 +304,7 @@
                 android:layout_gravity="center"
                 android:layout_marginTop="60px"
                 android:orientation="vertical"
-                android:visibility="visible">
+                android:visibility="gone">
 
                 <!-- 用户设置 -->
                 <LinearLayout
@@ -731,7 +731,7 @@
                 android:layout_height="match_parent"
                 android:layout_gravity="center_horizontal|center_vertical"
                 android:gravity="center_horizontal|center_vertical"
-                android:text="清洗臀部    人工    10月29号 15:12                                 "
+                android:text="清洗臀部          人工         10月29号 15:12                                                                         "
                 android:textSize="17.93px"/>
 
             <View

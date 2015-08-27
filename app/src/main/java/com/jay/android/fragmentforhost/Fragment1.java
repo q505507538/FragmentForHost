@@ -2,20 +2,14 @@ package com.jay.android.fragmentforhost;
 
 import android.app.Activity;
 import android.app.Fragment;
-import android.app.ProgressDialog;
-import android.bluetooth.BluetoothGattCharacteristic;
-import android.os.Handler;
-import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
 
-import com.mt.ble.mtble.MTBLEMBLE;
-import com.mt.help.LogText;
-import com.sdk.ble.MTBLEManager;
-import com.sdk.help.Helpful;
+import com.jay.android.fragmentforhost.Help.BLEHelp;
+import com.jay.android.fragmentforhost.Help.CRCHelp;
+import com.jay.android.fragmentforhost.Utils.UIUtils;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -108,12 +102,14 @@ public class Fragment1 extends Fragment {
         if(buttonFlag[0]) {
 //            sendbytes = getSendDatas("b1010a010000001b11220d0a", 1, true);
             sendbytes = CRCHelp.CRC16("b1010a010000001b11220d0a");
+            UIUtils.showToastSafe("起背开始b1010a010000001b11220d0a");
 //            sendbytes = bleHelp.getSendDatas("b1010a010000001b11220d0a", 1, true);
             btn_cuangti_qibei.setBackgroundResource(R.drawable.btn_stop);
         } else {
 //            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
 //            sendbytes = bleHelp.getSendDatas("b1010a000000001b11220d0a", 1, true);
             sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
+            UIUtils.showToastSafe("起背暂停b1010a000000001b11220d0a");
             btn_cuangti_qibei.setBackgroundResource(R.drawable.btn_cuangti_qibei);
         }
         buttonFlag[0] = !buttonFlag[0];
@@ -125,10 +121,12 @@ public class Fragment1 extends Fragment {
     void tangpingButtonClicked() {
         if(buttonFlag[1]) {
             sendbytes = CRCHelp.CRC16("b1010a000100001b11220d0a");
+            UIUtils.showToastSafe("躺平开始b1010a000100001b11220d0a");
 //            sendbytes = getSendDatas("b1010a000100001b11220d0a", 1, true);
             btn_cuangti_tangping.setBackgroundResource(R.drawable.btn_stop);
         } else {
             sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
+            UIUtils.showToastSafe("躺平暂停b1010a000000001b11220d0a");
 //            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
             btn_cuangti_tangping.setBackgroundResource(R.drawable.btn_cuangti_tangping);
         }
@@ -141,10 +139,12 @@ public class Fragment1 extends Fragment {
     void xiatuiButtonClicked() {
         if(buttonFlag[2]) {
             sendbytes = CRCHelp.CRC16("b1010a000000011b11220d0a");
+            UIUtils.showToastSafe("下腿开始b1010a000000011b11220d0a");
 //            sendbytes = getSendDatas("b1010a000000011b11220d0a", 1, true);
             btn_cuangti_xiatui.setBackgroundResource(R.drawable.btn_stop);
         } else {
             sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
+            UIUtils.showToastSafe("下腿暂停b1010a000000001b11220d0a");
 //            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
             btn_cuangti_xiatui.setBackgroundResource(R.drawable.btn_cuangti_xiatui);
         }
@@ -156,11 +156,13 @@ public class Fragment1 extends Fragment {
     @Click(R.id.btn_cuangti_taitui)
     void taituiButtonClicked() {
         if(buttonFlag[3]) {
-            sendbytes = CRCHelp.CRC16("b1010a000001001b11220d0a");
+            sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
+            UIUtils.showToastSafe("抬腿开始b1010a000000001b11220d0a");
 //            sendbytes = getSendDatas("b1010a000001001b11220d0a", 1, true);
             btn_cuangti_taitui.setBackgroundResource(R.drawable.btn_stop);
         } else {
             sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
+            UIUtils.showToastSafe("抬腿暂停b1010a000000001b11220d0a");
 //            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
             btn_cuangti_taitui.setBackgroundResource(R.drawable.btn_cuangti_taitui);
         }
@@ -173,10 +175,12 @@ public class Fragment1 extends Fragment {
     void zuofansenButtonClicked() {
         if(buttonFlag[4]) {
             sendbytes = CRCHelp.CRC16("b2020a000100002b11220d0a");
+            UIUtils.showToastSafe("左翻身开始b2020a000100002b11220d0a");
 //            sendbytes = getSendDatas("b2020a000100002b11220d0a", 1, true);
             btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_stop);
         } else {
             sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
+            UIUtils.showToastSafe("左翻身暂停b2020a000000002b11220d0a");
 //            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
             btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_cuangti_zuofansen);
         }
@@ -189,10 +193,12 @@ public class Fragment1 extends Fragment {
     void youfansenButtonClicked() {
         if(buttonFlag[5]) {
             sendbytes = CRCHelp.CRC16("b2020a010000002b11220d0a");
+            UIUtils.showToastSafe("右翻身开始b2020a010000002b11220d0a");
 //            sendbytes = getSendDatas("b2020a010000002b11220d0a", 1, true);
             btn_cuangti_youfansen.setBackgroundResource(R.drawable.btn_stop);
         } else {
             sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
+            UIUtils.showToastSafe("右翻身暂停b2020a000000002b11220d0a");
 //            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
             btn_cuangti_youfansen.setBackgroundResource(R.drawable.btn_cuangti_youfansen);
         }
@@ -204,11 +210,13 @@ public class Fragment1 extends Fragment {
     @Click(R.id.btn_cuangti_zidongfansen)
     void zidongfansenButtonClicked() {
         if(buttonFlag[6]) {
-            sendbytes = CRCHelp.CRC16("b2020a000001002b11220d0a");
+            sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
+            UIUtils.showToastSafe("自动翻身开始b2020a000000002b11220d0a");
 //            sendbytes = getSendDatas("b2020a000001002b11220d0a", 1, true);
             btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_off);
         } else {
             sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
+            UIUtils.showToastSafe("自动翻身暂停b2020a000000002b11220d0a");
 //            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
             btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_on);
         }
@@ -220,6 +228,7 @@ public class Fragment1 extends Fragment {
     @Click(R.id.btn_cuangti_reset)
     void resetButtonClicked() {
         sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
+        UIUtils.showToastSafe("复位b3030a010000003b11220d0a");
         bleHelp.sendDatas(sendbytes);
     }
 }
