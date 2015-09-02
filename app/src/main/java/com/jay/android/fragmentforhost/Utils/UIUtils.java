@@ -14,9 +14,8 @@ import com.jay.android.fragmentforhost.BaseActivity;
 import com.jay.android.fragmentforhost.MyApplication;
 
 /**
- * Created by smyhvae on 2015/5/13.
+ * UI工具类
  */
-
 public class UIUtils {
 
 
@@ -148,7 +147,7 @@ public class UIUtils {
     private static void showToast(String str) {
         BaseActivity frontActivity = BaseActivity.getForegroundActivity();
         if (frontActivity != null) {
-            Toast.makeText(frontActivity, str, Toast.LENGTH_LONG).show();
+            Toast.makeText(frontActivity, str, Toast.LENGTH_SHORT).show();
         }
     }
 }
