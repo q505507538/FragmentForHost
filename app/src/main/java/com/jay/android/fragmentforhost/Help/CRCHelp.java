@@ -1,5 +1,10 @@
 package com.jay.android.fragmentforhost.Help;
 
+import com.jay.android.fragmentforhost.Utils.HexUtils;
+
+/**
+ * CRC校验
+ */
 public class CRCHelp {
     static byte[] crc16_tab_h = { (byte) 0x00, (byte) 0xC1, (byte) 0x81, (byte) 0x40, (byte) 0x01, (byte) 0xC0, (byte) 0x80, (byte) 0x41, (byte) 0x01, (byte) 0xC0, (byte) 0x80, (byte) 0x41,
             (byte) 0x00, (byte) 0xC1, (byte) 0x81, (byte) 0x40, (byte) 0x01, (byte) 0xC0, (byte) 0x80, (byte) 0x41, (byte) 0x00, (byte) 0xC1, (byte) 0x81, (byte) 0x40, (byte) 0x00, (byte) 0xC1,
@@ -108,25 +113,8 @@ public class CRCHelp {
         return (ucCRCHi & 0x00ff) & 0xffff;
     }
 
-    private static byte uniteBytes(byte src0, byte src1) {
-        byte _b0 = Byte.decode("0x" + new String(new byte[] { src0 })).byteValue();
-        _b0 = (byte) (_b0 << 4);
-        byte _b1 = Byte.decode("0x" + new String(new byte[] { src1 })).byteValue();
-        byte ret = (byte) (_b0 | _b1);
-        return ret;
-    }
-
-    public static byte[] HexString2Bytes(String src) {
-        byte[] ret = new byte[src.length() / 2];
-        byte[] tmp = src.getBytes();
-        for (int i = 0; i < src.length() / 2; ++i) {
-            ret[i] = uniteBytes(tmp[i * 2], tmp[i * 2 + 1]);
-        }
-        return ret;
-    }
-
     public static byte[] CRC16(String src) {
-        byte[] datas = HexString2Bytes(src);
+        byte[] datas = HexUtils.HexString2Bytes(src);
         byte[] tmp = new byte[8];
         for(int i = 0; i < 8; i++) tmp[i] = datas[i];
         int crcHi = calcCrc16Hi(tmp, 0, tmp.length, 0xffff);
