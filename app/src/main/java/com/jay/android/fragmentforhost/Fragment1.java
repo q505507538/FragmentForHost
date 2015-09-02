@@ -2,6 +2,9 @@ package com.jay.android.fragmentforhost;
 
 import android.app.Activity;
 import android.app.Fragment;
+import android.bluetooth.BluetoothGattCharacteristic;
+import android.os.Handler;
+import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.LinearLayout;
@@ -9,7 +12,10 @@ import android.widget.TextView;
 
 import com.jay.android.fragmentforhost.Help.BLEHelp;
 import com.jay.android.fragmentforhost.Help.CRCHelp;
+import com.jay.android.fragmentforhost.Help.DataHelp;
+import com.jay.android.fragmentforhost.Utils.HexUtils;
 import com.jay.android.fragmentforhost.Utils.UIUtils;
+import com.mt.ble.mtble.MTBLEMBLE;
 
 import org.androidannotations.annotations.Click;
 import org.androidannotations.annotations.EFragment;
@@ -71,7 +77,7 @@ public class Fragment1 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-        bleHelp = new BLEHelp(activity);
+        bleHelp = new BLEHelp(activity, blecallback);
     }
 
     // 滑块选择处理(手动,自动)
@@ -230,5 +236,50 @@ public class Fragment1 extends Fragment {
         sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
         UIUtils.showToastSafe("复位b3030a010000003b11220d0a");
         bleHelp.sendDatas(sendbytes);
+    }
+
+    // 设置回调方法
+    private MTBLEMBLE.CallBack blecallback = new MTBLEMBLE.CallBack() {
+
+        @Override
+        public void onReviceDatas(final BluetoothGattCharacteristic data_char) {
+//            disDatas(data_char);
+        }
+
+        @Override
+        public void onReviceCMD(BluetoothGattCharacteristic data_char) {}
+
+        @Override
+        public void onDisconnect() {
+
+        }
+    };
+
+    // 显示接收数据和命令
+    private Handler handl = new Handler();
+    private boolean disDatas(final BluetoothGattCharacteristic data_char) {
+        handl.post(new Runnable() {
+            @Override
+            public void run() {
+                switch (1) {
+                    case 0: // String
+                        UIUtils.showToastSafe(data_char.getStringValue(0));
+                        break;
+                    case 1: // 16进制
+                        UIUtils.showToastSafe(HexUtils.Bytes2HexString(data_char.getValue()));
+                        break;
+                    case 2: // 10进制
+                        int count = 0;
+                        byte[] tmp_byte = data_char.getValue();
+                        for (int i = 0; i < tmp_byte.length; i++) {
+                            count *= 256;
+                            count += (tmp_byte[tmp_byte.length - 1 - i] & 0xFF);
+                        }
+                        UIUtils.showToastSafe("" + count);
+                        break;
+                }
+            }
+        });
+        return true;
     }
 }
