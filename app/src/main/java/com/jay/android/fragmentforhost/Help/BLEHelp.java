@@ -19,9 +19,9 @@ public class BLEHelp {
 
     private Activity activity;
 
-    public BLEHelp(Activity activity) {
+    public BLEHelp(Activity activity, MTBLEMBLE.CallBack blecallback) {
         this.activity = activity;
-        initBLE();
+        initBLE(blecallback);
     }
 
     //    初始化BLE
@@ -29,7 +29,7 @@ public class BLEHelp {
 //    private static final String mac = "F4:B8:5E:E6:8C:1F"; // 吴海滨
     private static final String mac = "78:A5:04:8D:18:2A";
 
-    private void initBLE() {
+    private void initBLE(MTBLEMBLE.CallBack blecallback) {
         if (android.os.Build.VERSION.SDK_INT < 18) {
             Toast.makeText(activity, "你out了，系统尽然还没有到android 4.3", Toast.LENGTH_LONG).show();
             return;
@@ -42,36 +42,36 @@ public class BLEHelp {
         new connectThread().start();
     }
 
-    // 显示接收数据和命令
-    private boolean disDatas(final BluetoothGattCharacteristic data_char) {
-//        UIUtils.showToastSafe("正在接收数据");
-        handl.post(new Runnable() {
-            @Override
-            public void run() {
-                switch (1) {
-                    case 0: // String
-//                        Toast.makeText(activity, data_char.getStringValue(0), Toast.LENGTH_SHORT).show();
-                        break;
-                    case 1: // 16进制
-                        UIUtils.showToastSafe(Helpful.MYBytearrayToString(data_char.getValue()));
-//                        Toast.makeText(activity, Helpful.MYBytearrayToString(data_char.getValue()), Toast.LENGTH_SHORT).show();
-                        break;
-                    case 2: // 10进制
-                        int count = 0;
-                        byte[] tmp_byte = data_char.getValue();
-                        for (int i = 0; i < tmp_byte.length; i++) {
-                            count *= 256;
-                            count += (tmp_byte[tmp_byte.length - 1 - i] & 0xFF);
-                        }
-//                        Toast.makeText(activity, "" + count, Toast.LENGTH_SHORT).show();
-                        break;
-                    default:
-                        break;
-                }
-            }
-        });
-        return true;
-    }
+//    // 显示接收数据和命令
+//    private boolean disDatas(final BluetoothGattCharacteristic data_char) {
+////        UIUtils.showToastSafe("正在接收数据");
+//        handl.post(new Runnable() {
+//            @Override
+//            public void run() {
+//                switch (1) {
+//                    case 0: // String
+////                        Toast.makeText(activity, data_char.getStringValue(0), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case 1: // 16进制
+//                        UIUtils.showToastSafe(Helpful.MYBytearrayToString(data_char.getValue()));
+////                        Toast.makeText(activity, Helpful.MYBytearrayToString(data_char.getValue()), Toast.LENGTH_SHORT).show();
+//                        break;
+//                    case 2: // 10进制
+//                        int count = 0;
+//                        byte[] tmp_byte = data_char.getValue();
+//                        for (int i = 0; i < tmp_byte.length; i++) {
+//                            count *= 256;
+//                            count += (tmp_byte[tmp_byte.length - 1 - i] & 0xFF);
+//                        }
+////                        Toast.makeText(activity, "" + count, Toast.LENGTH_SHORT).show();
+//                        break;
+//                    default:
+//                        break;
+//                }
+//            }
+//        });
+//        return true;
+//    }
 
     // 获取发送数据
     public byte[]  getSendDatas(String tmp_str, int type, boolean dis_flag) {
@@ -138,36 +138,36 @@ public class BLEHelp {
     }
 
     // 设置回调方法
-    private MTBLEMBLE.CallBack blecallback = new MTBLEMBLE.CallBack() {
-
-        @Override
-        public void onReviceDatas(final BluetoothGattCharacteristic data_char) {
-            disDatas(data_char);
-        }
-
-        @Override
-        public void onReviceCMD(BluetoothGattCharacteristic data_char) {
-            disDatas(data_char);
-        }
-
-        @Override
-        public void onDisconnect() {
-            handl.post(new Runnable() {
-
-                @Override
-                public void run() {
-                    if (!activity.isDestroyed()) {
-                        Toast.makeText(activity, "断开连接，正在自动重连", Toast.LENGTH_SHORT).show();
-                        if (mBle.isConnected()) {
-                            return;
-                        } else {
-                            new connectThread().start();
-                        }
-                    }
-                }
-            });
-        }
-    };
+//    private MTBLEMBLE.CallBack blecallback = new MTBLEMBLE.CallBack() {
+//
+//        @Override
+//        public void onReviceDatas(final BluetoothGattCharacteristic data_char) {
+//            disDatas(data_char);
+//        }
+//
+//        @Override
+//        public void onReviceCMD(BluetoothGattCharacteristic data_char) {
+//            disDatas(data_char);
+//        }
+//
+//        @Override
+//        public void onDisconnect() {
+//            handl.post(new Runnable() {
+//
+//                @Override
+//                public void run() {
+//                    if (!activity.isDestroyed()) {
+//                        Toast.makeText(activity, "断开连接，正在自动重连", Toast.LENGTH_SHORT).show();
+//                        if (mBle.isConnected()) {
+//                            return;
+//                        } else {
+//                            new connectThread().start();
+//                        }
+//                    }
+//                }
+//            });
+//        }
+//    };
 
 
     // 建立连接线程
