@@ -32,7 +32,6 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".BLEService" />
     </application>
 
 </manifest>
