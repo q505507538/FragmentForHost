@@ -7,17 +7,16 @@ import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import com.jay.android.fragmentforhost.Help.BLEHelp;
-import com.jay.android.fragmentforhost.Help.CRCHelp;
 import com.jay.android.fragmentforhost.Help.DataHelp;
 import com.jay.android.fragmentforhost.Utils.HexUtils;
 import com.jay.android.fragmentforhost.Utils.SharedPreferencesUtils;
 import com.jay.android.fragmentforhost.Utils.UIUtils;
 import com.mt.ble.mtble.MTBLEMBLE;
-import com.sdk.help.Helpful;
 
 import org.androidannotations.annotations.Background;
 import org.androidannotations.annotations.Click;
@@ -25,6 +24,7 @@ import org.androidannotations.annotations.EFragment;
 import org.androidannotations.annotations.UiThread;
 import org.androidannotations.annotations.ViewById;
 import org.androidannotations.annotations.ViewsById;
+import org.androidannotations.api.BackgroundExecutor;
 
 import java.util.HashMap;
 import java.util.List;
@@ -75,7 +75,7 @@ public class Fragment2 extends Fragment {
     Button btn_daxiaobian_congxibiandian;
     @ViewById   // 消毒杀菌按钮
     Button btn_daxiaobian_xiaodusajun;
-
+    // 手动按钮组
     @ViewsById({R.id.btn_daxiaobian_dabianculi,
                 R.id.btn_daxiaobian_xiaobianculi,
                 R.id.btn_daxiaobian_qingxitunbu,
@@ -85,7 +85,7 @@ public class Fragment2 extends Fragment {
     List<Button> btns_daxiaobian;
 
     @ViewById   // 换气除臭按钮
-    Button btn_daxiaobian_huanqicucou;
+    Button btn_daxiaobian_paisui;
     @ViewById   // 自动处理大小便按钮
     Button btn_daxiaobian_zidongculidaxiaobian;
     @ViewById   // 自动换气除臭按钮
@@ -99,8 +99,15 @@ public class Fragment2 extends Fragment {
     @ViewById   // 排水开关按钮
     Button btn_daxiaobian_paisuikaiguan;
 
-    Boolean buttonFlag[] = {true, true, true, true, true, true, true, true, true, true, true, true, true};
-    Boolean flag = true;
+    Boolean flag = true; // 为按钮控制锁的状态,true为不锁,false为锁
+    Boolean flagPaisui = false; // 默认是锁定状态，只有在设置那里的排水开关开起来情况下，才允许操作
+
+    @ViewById  // 清水桶状态图片
+    ImageView img_daxiaobian_qingsuitong;
+    @ViewById  // 药水桶状态图片
+    ImageView img_daxiaobian_yaosuitong;
+    @ViewById  // 污水桶状态图片
+    ImageView img_daxiaobian_wusuitong;
 
     @Click(R.id.ll_daxiaobian_soudong)
     void daxiaobianSoudongLayoutClicked() {
@@ -121,7 +128,8 @@ public class Fragment2 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-        bleHelp = new BLEHelp(activity, blecallback);
+        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:8C:1F"); // 生产
+//        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
     }
 
     BLEHelp bleHelp = null;
@@ -131,7 +139,7 @@ public class Fragment2 extends Fragment {
         initSettings();
     }
 
-    private static Map mosi = new HashMap() {{
+    private static Map mosi = new HashMap() {{ // true表示开,false表示关
         put("daxiaobianculi_auto", false);// 自动处理大小便模式按钮
         put("huanqicucou_auto", false);   // 自动换气除臭按钮
         put("niaosijinmosi", false);      // 尿失禁模式按钮
@@ -144,6 +152,13 @@ public class Fragment2 extends Fragment {
         checkButton("nvxingmosi", btn_daxiaobian_nvxingmosi);
         checkButton("wusuitongsuiding", btn_daxiaobian_wusuitongsuiding);
         checkButton("paisuikaiguan", btn_daxiaobian_paisuikaiguan);
+        if((Boolean)mosi.get("paisuikaiguan")){
+            btn_daxiaobian_paisui.setBackgroundResource(R.drawable.btn_daxiaobian_paisui);
+            flagPaisui = true;
+        }else{
+            btn_daxiaobian_paisui.setBackgroundResource(R.drawable.btn_daxiaobian_paisui_disable);
+            flagPaisui = false;
+        }
     }
 
     // 从配置文件获取按钮状态
@@ -206,7 +221,7 @@ public class Fragment2 extends Fragment {
     @Click(R.id.btn_daxiaobian_dabianculi)
     void dabianculiButtonClicked() {
         if(flag){
-            send(DataHelp.DAXIAOBIAN_DABIANMOSI_STR, DataHelp.DAXIAOBIAN_DABIANMOSI);
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_DABIANMOSI_STR, DataHelp.DAXIAOBIAN_DABIANMOSI);
         }
     }
 
@@ -215,11 +230,11 @@ public class Fragment2 extends Fragment {
     void xiaobianculiButtonClicked() {
         if(flag){
             if((Boolean)mosi.get("niaosijinmosi")){
-                send(DataHelp.DAXIAOBIAN_NIAOSIJINMOSI_STR, DataHelp.DAXIAOBIAN_NIAOSIJINMOSI);
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NIAOSIJINMOSI_STR, DataHelp.DAXIAOBIAN_NIAOSIJINMOSI);
             }else if((Boolean)mosi.get("nvxingmosi")){
-                send(DataHelp.DAXIAOBIAN_NVXINGXIAOBIANMOSI_STR, DataHelp.DAXIAOBIAN_NVXINGXIAOBIANMOSI);
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NVXINGXIAOBIANMOSI_STR, DataHelp.DAXIAOBIAN_NVXINGXIAOBIANMOSI);
             }else{
-                send(DataHelp.DAXIAOBIAN_NANXINGXIAOBIANMOSI_STR, DataHelp.DAXIAOBIAN_NANXINGXIAOBIANMOSI);
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NANXINGXIAOBIANMOSI_STR, DataHelp.DAXIAOBIAN_NANXINGXIAOBIANMOSI);
             }
         }
     }
@@ -228,7 +243,7 @@ public class Fragment2 extends Fragment {
     @Click(R.id.btn_daxiaobian_qingxitunbu)
     void qingxitunbuButtonClicked() {
         if(flag){
-            send(DataHelp.DAXIAOBIAN_CONGXITUNBU_STR, DataHelp.DAXIAOBIAN_CONGXITUNBU);
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_CONGXITUNBU_STR, DataHelp.DAXIAOBIAN_CONGXITUNBU);
         }
     }
 
@@ -236,7 +251,7 @@ public class Fragment2 extends Fragment {
     @Click(R.id.btn_daxiaobian_honggantunbu)
     void honggantunbuButtonClicked() {
         if(flag){
-            send(DataHelp.DAXIAOBIAN_TONGFENGGANZAO_STR, DataHelp.DAXIAOBIAN_TONGFENGGANZAO);
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_TONGFENGGANZAO_STR, DataHelp.DAXIAOBIAN_TONGFENGGANZAO);
         }
     }
 
@@ -244,7 +259,7 @@ public class Fragment2 extends Fragment {
     @Click(R.id.btn_daxiaobian_congxibiandian)
     void congxibiandianButtonClicked() {
         if(flag){
-            send(DataHelp.DAXIAOBIAN_CONGXIBIANDIAN_STR, DataHelp.DAXIAOBIAN_CONGXIBIANDIAN);
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_CONGXIBIANDIAN_STR, DataHelp.DAXIAOBIAN_CONGXIBIANDIAN);
         }
     }
 
@@ -252,16 +267,16 @@ public class Fragment2 extends Fragment {
     @Click(R.id.btn_daxiaobian_xiaodusajun)
     void xiaodusajunButtonClicked() {
         if(flag){
-            send(DataHelp.DAXIAOBIAN_QINGJIESAJUNMOSI_STR, DataHelp.DAXIAOBIAN_QINGJIESAJUNMOSI);
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_QINGJIESAJUNMOSI_STR, DataHelp.DAXIAOBIAN_QINGJIESAJUNMOSI);
         }
     }
 
-    // 换气除臭按钮
-    @Click(R.id.btn_daxiaobian_huanqicucou)
+    // 排水按钮
+    @Click(R.id.btn_daxiaobian_paisui)
     void huanqicucouButtonClicked() {
-        if (buttonFlag[6]) btn_daxiaobian_huanqicucou.setBackgroundResource(R.drawable.btn_stop);
-        else btn_daxiaobian_huanqicucou.setBackgroundResource(R.drawable.btn_daxiaobian_huanqicucou);
-        buttonFlag[6] = !buttonFlag[6];
+        if(flagPaisui){
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_PAISUIMOSI_STR, DataHelp.DAXIAOBIAN_PAISUIMOSI);
+        }
     }
 
     // 自动处理大小便按钮
@@ -273,6 +288,11 @@ public class Fragment2 extends Fragment {
     // 自动换气除臭按钮
     @Click(R.id.btn_daxiaobian_zidonghuanqicucou)
     void zidonghuanqicucouButtonClicked() {
+        if((Boolean)mosi.get("huanqicucou_auto")){
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_ZIDONGHUANQIMOSI_OFF_STR, DataHelp.DAXIAOBIAN_ZIDONGHUANQIMOSI_OFF);
+        }else{
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_ZIDONGHUANQIMOSI_ON_STR, DataHelp.DAXIAOBIAN_ZIDONGHUANQIMOSI_ON);
+        }
         setButton("huanqicucou_auto", btn_daxiaobian_zidonghuanqicucou);
     }
 
@@ -291,40 +311,57 @@ public class Fragment2 extends Fragment {
     // 污水桶锁定按钮
     @Click(R.id.btn_daxiaobian_wusuitongsuiding)
     void wusuitongsuidingButtonClicked() {
-        setButton("wusuitongsuiding", btn_daxiaobian_wusuitongsuiding);
+        if((Boolean)mosi.get("wusuitongsuiding")){
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_RUTONG_STR, DataHelp.DAXIAOBIAN_RUTONG);
+            setButton("wusuitongsuiding", btn_daxiaobian_wusuitongsuiding);
+            flag=false;
+            syncButton(-1);
+        }else{
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_CUTONG_STR, DataHelp.DAXIAOBIAN_CUTONG);
+            setButton("wusuitongsuiding", btn_daxiaobian_wusuitongsuiding);
+            flag=true;
+            syncButton(0);
+        }
     }
 
     // 排水开关按钮
     @Click(R.id.btn_daxiaobian_paisuikaiguan)
     void paisuikaiguanButtonClicked() {
         setButton("paisuikaiguan", btn_daxiaobian_paisuikaiguan);
+        if((Boolean)mosi.get("paisuikaiguan")){
+            btn_daxiaobian_paisui.setBackgroundResource(R.drawable.btn_daxiaobian_paisui);
+            flagPaisui = true;
+        }else{
+            btn_daxiaobian_paisui.setBackgroundResource(R.drawable.btn_daxiaobian_paisui_disable);
+            flagPaisui = false;
+        }
     }
 
     // 将按钮状态设置到配置文件中
     private void setButton(String key, Button btn) {
         if ((Boolean)mosi.get(key)) btn.setBackgroundResource(R.drawable.btn_off);
         else btn.setBackgroundResource(R.drawable.btn_on);
-        mosi.put(key, !(Boolean)mosi.get(key));
+        mosi.put(key, !(Boolean) mosi.get(key));
         SharedPreferencesUtils.setParam(getActivity().getApplicationContext(), key, mosi.get(key));
     }
 
-    // 发送命令
-    private void send(String hint, byte[] bytes){
-        bleHelp.sendDatas(bytes);
-        UIUtils.showToastSafe(hint + HexUtils.Bytes2HexString(bytes));
-    }
-
+    /**
+     * 同步按钮的状态
+     * flag用于控制锁的状态,true为不锁,false为锁
+     * @param btn_id 第几个按钮需要设置为disable, -1表示全部设置为disable
+     */
     @UiThread
-    public void syncButton(int j){
+    public void syncButton(int btn_id){
         String[] name = new String[] { "dabianculi", "xiaobianculi", "qingxitunbu", "honggantunbu", "congxibiandian", "xiaodusajun" };
         try {
             if(!flag) {
                 for (int i = 0; i < 6; i++) {
-                    if(i != j) {
+                    if(i != btn_id) {
                         btns_daxiaobian.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_daxiaobian_" + name[i] + "_disable").get(R.drawable.class));
+                    }else{
+                        btns_daxiaobian.get(btn_id).setBackgroundResource(R.drawable.btn_ing);
                     }
                 }
-                btns_daxiaobian.get(j).setBackgroundResource(R.drawable.btn_ing);
             }else{
                 for (int i = 0; i < 6; i++) {
                     btns_daxiaobian.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_daxiaobian_" + name[i]).get(R.drawable.class));
@@ -352,34 +389,13 @@ public class Fragment2 extends Fragment {
         public void onDisconnect() {}
     };
 
-    // 显示接收数据和命令
-    private Handler handl = new Handler();
-    private boolean disDatas(final BluetoothGattCharacteristic data_char) {
-        handl.post(new Runnable() {
-            @Override
-            public void run() {
-                switch (1) {
-                    case 0: // String
-                        UIUtils.showToastSafe(data_char.getStringValue(0));
-                        break;
-                    case 1: // 16进制
-                        UIUtils.showToastSafe(HexUtils.Bytes2HexString(data_char.getValue()));
-                        break;
-                    case 2: // 10进制
-                        int count = 0;
-                        byte[] tmp_byte = data_char.getValue();
-                        for (int i = 0; i < tmp_byte.length; i++) {
-                            count *= 256;
-                            count += (tmp_byte[tmp_byte.length - 1 - i] & 0xFF);
-                        }
-                        UIUtils.showToastSafe("" + count);
-                        break;
-                }
-            }
-        });
-        return true;
-    }
-
+    /**
+     * 数据返回检查函数
+     * 先判断长度为7
+     * 再判断B24E开头
+     * 然后送入状态检查
+     * @param data_char
+     */
     @Background
     public void ReviceDatas(final BluetoothGattCharacteristic data_char){
 //        String str = HexUtils.Bytes2HexString(data_char.getValue());
@@ -394,7 +410,7 @@ public class Fragment2 extends Fragment {
                 checkType(datas, data_char);
             }else{
                 UIUtils.showToastSafe("数据头部校验错误 ");
-                UIUtils.showToastSafe("第1位是:" + datas[0] + "\n第2位是:" + datas[1]);
+                UIUtils.showToastSafe("第0位是:" + datas[0] + "\n第1位是:" + datas[1]);
             }
         }else{
             UIUtils.showToastSafe("数据长度校验错误");
@@ -402,9 +418,15 @@ public class Fragment2 extends Fragment {
         }
     }
 
+    /**
+     * 判断返回数据的类型
+     * 根据第2位数据判断
+     * @param datas
+     * @param data_char
+     */
     @Background
     public void checkType(byte[] datas, final BluetoothGattCharacteristic data_char){
-        String str_1 = "第3位错误";
+        String str_1 = "第2位错误";
         int btn_id = -1;
         switch(datas[2]){
             case 1:
@@ -479,36 +501,96 @@ public class Fragment2 extends Fragment {
         checkButtonStatus(datas, str_1, btn_id);
     }
 
+    /**
+     * 判断返回数据的状态
+     * 根据第4位数据判断
+     * @param datas
+     * @param str_1
+     * @param btn_id
+     */
     @Background
     public void checkButtonStatus(byte[] datas, String str_1, int btn_id){
-        String str_2 = "第5位错误";
+        String str_2 = "第4位错误";
         switch(datas[4]){
             case 0:
                 str_2 = "未完成退出";
-                flag = true;
+                flag = true; // 不锁定按钮
                 break;
             case 1:
                 str_2 = "执行中";
-                flag = false;
+                flag = false; // 锁定按钮
                 break;
             case (byte)0xff:
                 str_2 = "执行完成";
-                flag = true;
+                flag = true; // 不锁定按钮
                 break;
         }
-        syncButton(btn_id);
+        syncButton(btn_id); // 同步按钮状态
         UIUtils.showToastSafe(str_1 + str_2);
     }
 
+    /**
+     * 设备状态检查
+     * 当第三位等于0x55的时候才会触发这个判断
+     * @param data_char
+     */
     @Background
     public void checkStatus(final BluetoothGattCharacteristic data_char){
 //        UIUtils.showToastSafe("正在判断设备状态");
         String[] status = new String[] { "水温过高", "管道堵塞", "便垫未连接", "电机温度过高", "污水桶满", "缺消毒水", "水位低于50%", "水位低于25%" };
         Integer data = data_char.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 4);
         for(int i = 0; i < 8; i ++) {
-            if((data & (0x01 << i)) == (0x01 << i)){
+            if((data & (0x80 >> i)) == (0x80 >> i)){
                 UIUtils.showToastSafe(status[i]);
+                setStatus(i);
             }
         }
+    }
+
+    @UiThread
+    public void setStatus(int status) {
+        switch(status){
+            case 7:
+                BackgroundExecutor.cancelAll("qingsuitongStatus_task", true);
+                img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_quesui);
+                qingsuitongStatus_task();
+                break;
+            case 5:
+                BackgroundExecutor.cancelAll("yaosuitongStatus_task", true);
+                img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_quesui);
+                yaosuitongStatus_task();
+                break;
+            case 4:
+                BackgroundExecutor.cancelAll("wusuitongStatus_task", true);
+                img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_suiman);
+                wusuitongStatus_task();
+                break;
+        }
+    }
+
+    @Background(id="qingsuitongStatus_task", delay=3000)
+    public void qingsuitongStatus_task() {
+        qingsuitongStatus();
+    }
+    @Background(id="yaosuitongStatus_task", delay=3000)
+    public void yaosuitongStatus_task() {
+        yaosuitongStatus();
+    }
+    @Background(id="wusuitongStatus_task", delay=3000)
+    public void wusuitongStatus_task() {
+        wusuitongStatus();
+    }
+
+    @UiThread
+    public void qingsuitongStatus() {
+        img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_normal);
+    }
+    @UiThread
+    public void yaosuitongStatus() {
+        img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_normal);
+    }
+    @UiThread
+    public void wusuitongStatus() {
+        img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_normal);
     }
 }

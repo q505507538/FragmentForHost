@@ -5,6 +5,7 @@ import android.bluetooth.BluetoothGattCharacteristic;
 import android.os.Handler;
 import android.widget.Toast;
 
+import com.jay.android.fragmentforhost.Utils.HexUtils;
 import com.jay.android.fragmentforhost.Utils.UIUtils;
 import com.mt.ble.mtble.MTBLEMBLE;
 import com.mt.help.LogText;
@@ -19,15 +20,18 @@ public class BLEHelp {
 
     private Activity activity;
 
-    public BLEHelp(Activity activity, MTBLEMBLE.CallBack blecallback) {
+    private static String mac = "78:A5:04:8D:18:2A";
+
+    public BLEHelp(Activity activity, MTBLEMBLE.CallBack blecallback, String mac) {
         this.activity = activity;
+        this.mac = mac;
         initBLE(blecallback);
     }
 
     //    初始化BLE
 //    private static final String mac = "F4:B8:5E:E6:98:AC"; // 冯明敏
 //    private static final String mac = "F4:B8:5E:E6:8C:1F"; // 吴海滨
-    private static final String mac = "78:A5:04:8D:18:2A";
+//    private static final String mac = "78:A5:04:8D:18:2A";
 
     private void initBLE(MTBLEMBLE.CallBack blecallback) {
         if (android.os.Build.VERSION.SDK_INT < 18) {
@@ -220,11 +224,12 @@ public class BLEHelp {
     }
 
     // 发送数据
-    public boolean sendDatas(byte[] value) {
+    public boolean sendDatas(String hint, byte[] value) {
         if (value == null) {
             return false;
         }
         mBle.sendData(value);
+        UIUtils.showToastSafe(hint + HexUtils.Bytes2HexString(value));
         return true;
     }
 }

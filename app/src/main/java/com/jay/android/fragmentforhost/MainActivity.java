@@ -33,7 +33,10 @@ import org.androidannotations.annotations.WindowFeature;
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 public class MainActivity extends BaseActivity {
     private byte[] sendbytes = null;
-    Intent intent;
+    private static final String mac[] = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:8C:1F"}; // 生产
+//    private static final String mac[] = new String[]{"78:A5:04:8D:18:2A","78:A5:04:8D:18:2A"}; // 开发
+    private static Integer currentFg = 0;
+    private static Boolean[] stopFlag = {false,false,false,false,false};
     // 定义五个Fragment的对象
     private Fragment1_ fg1 = new Fragment1_();
     private Fragment2_ fg2 = new Fragment2_();
@@ -64,14 +67,16 @@ public class MainActivity extends BaseActivity {
     ImageView xitongsezi_image;
     @ViewById // 急停按钮
     LinearLayout stop_layout;
+    @ViewById // 急停图片
+    ImageView stop_image;
 
-    BLEHelp bleHelp = null;
+    private static BLEHelp bleHelp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bleHelp = new BLEHelp(MainActivity.this, blecallback);
-        if(!DataHelp.isConnected) Toast.makeText(this, "连接成功", Toast.LENGTH_SHORT).show();
-        DataHelp.isConnected = true;
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, mac[0]);
+//        if(!DataHelp.isConnected) Toast.makeText(this, "连接成功", Toast.LENGTH_SHORT).show();
+//        DataHelp.isConnected = true;
     }
 
     @Override
@@ -86,14 +91,22 @@ public class MainActivity extends BaseActivity {
 
     @Click(R.id.cuangti_layout)
     void cuangtiLayoutClicked() {
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, mac[0]);
+        currentFg = 0;
         setChioceItem(fg1);
         cuangti_image.setImageResource(R.drawable.tab_2_p);
+        if(!stopFlag[0]) stop_image.setImageResource(R.drawable.tab_8_stop);
+        else stop_image.setImageResource(R.drawable.tab_8_start);
     }
 
     @Click(R.id.daxiaobian_layout)
     void daxiaobianLayoutClicked() {
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, mac[1]);
+        currentFg = 1;
         setChioceItem(fg2);
         daxiaobian_image.setImageResource(R.drawable.tab_3_p);
+        if(!stopFlag[1]) stop_image.setImageResource(R.drawable.tab_8_stop);
+        else stop_image.setImageResource(R.drawable.tab_8_start);
     }
 
     @Click(R.id.sangzikangfu_layout)
@@ -138,9 +151,19 @@ public class MainActivity extends BaseActivity {
     // 急停按钮
     @Click(R.id.stop_layout)
     void stopButtonClicked() {
-        sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
-        bleHelp.sendDatas(sendbytes);
-        UIUtils.showToastSafe("急停b3030a010000003b11220d0a");
+        if(currentFg == 0){
+            bleHelp.sendDatas(DataHelp.CUANGTI_STOP_START_STR, DataHelp.CUANGTI_STOP_START);
+        }else if(currentFg == 1){
+            if(!stopFlag[1]) {
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_TINGZIMOSI_STR, DataHelp.DAXIAOBIAN_TINGZIMOSI);
+                stop_image.setImageResource(R.drawable.tab_8_start);
+            }else{
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_TINGZIJIECU_STR, DataHelp.DAXIAOBIAN_TINGZIJIECU);
+                stop_image.setImageResource(R.drawable.tab_8_stop);
+            }
+            stopFlag[1] = !stopFlag[1];
+        }
+
     }
 
     // 设置回调方法
