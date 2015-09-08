@@ -212,7 +212,7 @@
                         android:background="@drawable/btn_daxiaobian_xiaodusajun"/>
                 </LinearLayout>
 
-                <!-- 换气除臭 -->
+                <!-- 排水 -->
                 <LinearLayout
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
@@ -221,10 +221,10 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_daxiaobian_huanqicucou"
+                        android:id="@+id/btn_daxiaobian_paisui"
                         android:layout_width="185px"
                         android:layout_height="51px"
-                        android:background="@drawable/btn_daxiaobian_huanqicucou"/>
+                        android:background="@drawable/btn_daxiaobian_paisui"/>
                 </LinearLayout>
             </LinearLayout>
 
@@ -496,37 +496,27 @@
                 android:gravity="center"
                 android:orientation="horizontal">
 
-                <LinearLayout
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:gravity="center"
-                    android:orientation="horizontal">
-                    <ImageView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:background="@drawable/img_daxiaobian_qingsuitong"/>
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_marginLeft="-71px"
-                        android:layout_marginTop="-11px"
-                        android:textColor="#005e51"
-                        android:text="75%"/>
-
-                </LinearLayout>
-
                 <ImageView
+                    android:id="@+id/img_daxiaobian_qingsuitong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="85px"
-                    android:background="@drawable/img_daxiaobian_yaosuitong_normal"/>
+                    android:src="@drawable/img_daxiaobian_qingsuitong_normal"/>
+
 
                 <ImageView
+                    android:id="@+id/img_daxiaobian_yaosuitong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginLeft="85px"
-                    android:background="@drawable/img_daxiaobian_wusuitong_normal"/>
+                    android:src="@drawable/img_daxiaobian_yaosuitong_normal"/>
+
+                <ImageView
+                    android:id="@+id/img_daxiaobian_wusuitong"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="85px"
+                    android:src="@drawable/img_daxiaobian_wusuitong_normal"/>
             </LinearLayout>
 
         </LinearLayout>

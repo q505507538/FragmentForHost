@@ -116,14 +116,14 @@
 
                     <Button
                         android:id="@+id/btn_cuangti_qibei"
-                        android:layout_width="139px"
-                        android:layout_height="38px"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
                         android:background="@drawable/btn_cuangti_qibei" />
 
                     <Button
                         android:id="@+id/btn_cuangti_tangping"
-                        android:layout_width="139px"
-                        android:layout_height="38px"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
                         android:layout_marginLeft="19px"
                         android:background="@drawable/btn_cuangti_tangping" />
                 </LinearLayout>
@@ -138,14 +138,14 @@
 
                     <Button
                         android:id="@+id/btn_cuangti_xiatui"
-                        android:layout_width="139px"
-                        android:layout_height="38px"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
                         android:background="@drawable/btn_cuangti_xiatui" />
 
                     <Button
                         android:id="@+id/btn_cuangti_taitui"
-                        android:layout_width="139px"
-                        android:layout_height="38px"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
                         android:layout_marginLeft="19px"
                         android:background="@drawable/btn_cuangti_taitui" />
                 </LinearLayout>
@@ -160,14 +160,14 @@
 
                     <Button
                         android:id="@+id/btn_cuangti_zuofansen"
-                        android:layout_width="139px"
-                        android:layout_height="38px"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
                         android:background="@drawable/btn_cuangti_zuofansen" />
 
                     <Button
                         android:id="@+id/btn_cuangti_youfansen"
-                        android:layout_width="139px"
-                        android:layout_height="38px"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
                         android:layout_marginLeft="19px"
                         android:background="@drawable/btn_cuangti_youfansen" />
                 </LinearLayout>
