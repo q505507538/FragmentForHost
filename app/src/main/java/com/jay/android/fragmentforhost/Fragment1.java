@@ -30,6 +30,9 @@ import java.util.List;
 public class Fragment1 extends Fragment {
     private byte[] sendbytes = null;
     private Activity activity;
+    private static int qibeicisu = 0;
+    private static int wantuicisu = 0;
+    private static int fansencisu = 0;
 
     @ViewById
     LinearLayout ll_cuanti_soudong;
@@ -44,6 +47,12 @@ public class Fragment1 extends Fragment {
     TextView tv_cuanti_soudong;
     @ViewById
     TextView tv_cuanti_zidong;
+    @ViewById
+    TextView tv_cuangti_tuibujiaodu;
+    @ViewById
+    TextView tv_cuangti_beibujiaodu;
+    @ViewById
+    TextView tv_cuangti_cisu;
 
     @ViewById
     View soudong_selected;
@@ -66,24 +75,31 @@ public class Fragment1 extends Fragment {
     Button btn_cuangti_zidongfansen;
     @ViewById // 复位
     Button btn_cuangti_reset;
-    // 手动按钮组
+    // 按钮组
     @ViewsById({R.id.btn_cuangti_qibei,
             R.id.btn_cuangti_tangping,
             R.id.btn_cuangti_xiatui,
             R.id.btn_cuangti_taitui,
             R.id.btn_cuangti_youfansen,
-            R.id.btn_cuangti_zuofansen})
+            R.id.btn_cuangti_zuofansen,
+            R.id.btn_cuangti_zidongfansen})
     List<Button> btns_cuangti;
 
-    private static Boolean buttonFlag[] = {true,true,true,true,true,true};
+    private static Boolean buttonFlag[] = {true,true,true,true,true,true,true,true};
     private static Boolean flag = true; // 为按钮控制开始和暂停的状态,true为开始,false为暂停
+    private static Boolean autoFlag = false; // 为自动模式互锁控制状态,true为锁,false为不锁
+    private static Boolean soudongFlag = false; // 为手动模式互锁控制状态,true为锁,false为不锁
 
     @Click(R.id.ll_cuanti_soudong)
-    void cuantiSoudongLayoutClicked() { setChioceItem(0); }
+    void cuantiSoudongLayoutClicked() {
+        if(!autoFlag) setChioceItem(0);
+        else UIUtils.showToastSafe("请先解除自动模式");
+    }
 
     @Click(R.id.ll_cuanti_zidong)
     void cuantiZidongLayoutClicked() {
-        setChioceItem(1);
+        if(!soudongFlag) setChioceItem(1);
+        else UIUtils.showToastSafe("请先解除手动模式");
     }
 
     BLEHelp bleHelp = null;
@@ -91,8 +107,8 @@ public class Fragment1 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:98:AC"); // 生产
-//        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
+//        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:98:AC"); // 生产
+        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
     }
 
     // 滑块选择处理(手动,自动)
@@ -207,28 +223,6 @@ public class Fragment1 extends Fragment {
         }
     }
 
-    // 左翻身按钮
-    @Click(R.id.btn_cuangti_zuofansen)
-    void zuofansenButtonClicked() {
-//        if(buttonFlag[4]) {
-//            sendbytes = CRCHelp.CRC16("b2020a000100002b11220d0a");
-//            UIUtils.showToastSafe("左翻身开始b2020a000100002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000100002b11220d0a", 1, true);
-//            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
-//            UIUtils.showToastSafe("左翻身暂停b2020a000000002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-//            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_cuangti_zuofansen);
-//        }
-//        buttonFlag[4] = !buttonFlag[4];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[4]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_START_STR, DataHelp.CUANGTI_ZUOFANSEN_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_PAUSE_STR, DataHelp.CUANGTI_ZUOFANSEN_PAUSE);
-        }
-    }
-
     // 右翻身按钮
     @Click(R.id.btn_cuangti_youfansen)
     void youfansenButtonClicked() {
@@ -245,9 +239,31 @@ public class Fragment1 extends Fragment {
 //        }
 //        buttonFlag[5] = !buttonFlag[5];
 //        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[5]){
+        if(buttonFlag[4]){
             if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_YOUFANSEN_START_STR, DataHelp.CUANGTI_YOUFANSEN_START);
             else bleHelp.sendDatas(DataHelp.CUANGTI_YOUFANSEN_PAUSE_STR, DataHelp.CUANGTI_YOUFANSEN_PAUSE);
+        }
+    }
+
+    // 左翻身按钮
+    @Click(R.id.btn_cuangti_zuofansen)
+    void zuofansenButtonClicked() {
+//        if(buttonFlag[4]) {
+//            sendbytes = CRCHelp.CRC16("b2020a000100002b11220d0a");
+//            UIUtils.showToastSafe("左翻身开始b2020a000100002b11220d0a");
+////            sendbytes = getSendDatas("b2020a000100002b11220d0a", 1, true);
+//            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_stop);
+//        } else {
+//            sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
+//            UIUtils.showToastSafe("左翻身暂停b2020a000000002b11220d0a");
+////            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
+//            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_cuangti_zuofansen);
+//        }
+//        buttonFlag[4] = !buttonFlag[4];
+//        bleHelp.sendDatas(sendbytes);
+        if(buttonFlag[5]){
+            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_START_STR, DataHelp.CUANGTI_ZUOFANSEN_START);
+            else bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_PAUSE_STR, DataHelp.CUANGTI_ZUOFANSEN_PAUSE);
         }
     }
 
@@ -267,7 +283,10 @@ public class Fragment1 extends Fragment {
 //        }
 //        buttonFlag[6] = !buttonFlag[6];
 //        bleHelp.sendDatas(sendbytes);
-        bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_START_STR, DataHelp.CUANGTI_FANSEN_AUTO_START);
+        if(buttonFlag[6]){
+            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_START_STR, DataHelp.CUANGTI_FANSEN_AUTO_START);
+            else bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_PAUSE_STR, DataHelp.CUANGTI_FANSEN_AUTO_PAUSE);
+        }
     }
 
     // 复位按钮
@@ -276,7 +295,12 @@ public class Fragment1 extends Fragment {
 //        sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
 //        UIUtils.showToastSafe("复位b3030a010000003b11220d0a");
 //        bleHelp.sendDatas(sendbytes);
-        bleHelp.sendDatas(DataHelp.CUANGTI_RESET_START_STR, DataHelp.CUANGTI_RESET_START);
+        if(buttonFlag[6]){
+            bleHelp.sendDatas(DataHelp.CUANGTI_RESET_START_STR, DataHelp.CUANGTI_RESET_START);
+        }else{
+            UIUtils.showToastSafe("复位尚未完成");
+        }
+
     }
 
     // 设置回调方法
@@ -304,6 +328,7 @@ public class Fragment1 extends Fragment {
     @Background
     public void ReviceDatas(final BluetoothGattCharacteristic data_char){
         byte[] datas = data_char.getValue();
+        UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
         if(datas.length == 8) {
             if(datas[0] == (byte)0xB2 && datas[5] == (byte)0x2B){
                 checkType(datas, data_char);
@@ -325,44 +350,15 @@ public class Fragment1 extends Fragment {
      */
     @Background
     public void checkType(byte[] datas, final BluetoothGattCharacteristic data_char){
-        String str_1 = "第1位错误";
+        String[] str_1 = new String[]{"第1位错误","起背","躺平","折腿","抬腿","右翻身","左翻身","自动翻身","复位","急停","腿部角度","背部角度","起背次数","弯腿次数","翻身次数"};
         int btn_id = -1;
-        switch(datas[1]){
-            case (byte) 0x01:
-                str_1 = "起背";
-                btn_id = 0;
-                break;
-            case (byte) 0x02:
-                str_1 = "躺平";
-                btn_id = 1;
-                break;
-            case (byte) 0x03:
-                str_1 = "折腿";
-                btn_id = 2;
-                break;
-            case (byte) 0x04:
-                str_1 = "抬腿";
-                btn_id = 3;
-                break;
-            case (byte) 0x05:
-                str_1 = "右翻身";
-                btn_id = 4;
-                break;
-            case (byte) 0x06:
-                str_1 = "左翻身";
-                btn_id = 5;
-                break;
-            case (byte) 0x07:
-                str_1 = "自动翻身";
-                break;
-            case (byte) 0x08:
-                str_1 = "复位";
-                break;
-            case (byte) 0x09:
-                str_1 = "急停";
-                break;
+        if(datas[1] > 0 && datas[1] < 10){
+            checkButtonStatus(datas, str_1[datas[1]], datas[1] - 1);
+        }else if(datas[1] > 9 && datas[1] < 15){
+            showData(datas, str_1[datas[1]]);
+        }else{
+            UIUtils.showToastSafe(str_1[0]);
         }
-        checkButtonStatus(datas, str_1, btn_id);
     }
 
     /**
@@ -399,22 +395,34 @@ public class Fragment1 extends Fragment {
      */
     @UiThread
     public void syncButton(int btn_id){
-        String[] name = new String[] { "qibei", "tangping", "xiatui", "taitui", "youfansen", "zuofansen" };
+        String[] name = new String[] { "qibei", "tangping", "xiatui", "taitui", "youfansen", "zuofansen", "zidongfansen" };
         try {
             if(btn_id == -1){
                 flag = true;
-                buttonFlag = new Boolean[]{true,true,true,true,true,true};
+                buttonFlag = new Boolean[]{true,true,true,true,true,true,true,true};
                 for (int i = 0; i < 6; i++) {
                     btns_cuangti.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_cuangti_" + name[i]).get(R.drawable.class));
                 }
+                btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_off);
+                soudongFlag = false;autoFlag = false;
             }else{
                 flag = false;
-                buttonFlag = new Boolean[]{false,false,false,false,false,false};
+                buttonFlag = new Boolean[]{false,false,false,false,false,false,false,false};
                 buttonFlag[btn_id] = true;
-                for (int i = 0; i < 6; i++) {
-                    if(i != btn_id) {
+                for (int i = 0; i < 8; i++) {
+                    if(i != btn_id && i != 6 && i != 7) {
                         btns_cuangti.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_cuangti_" + name[i] + "_disable").get(R.drawable.class));
+                    }else if(btn_id == 7){
+                        setChioceItem(0);
+                        soudongFlag = true;autoFlag = false;
+                        btns_cuangti.get(btn_id).setBackgroundResource(R.drawable.btn_ing);
+                    }else if(btn_id == 6){
+                        setChioceItem(1);
+                        btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_on);
+                        soudongFlag = false;autoFlag = true;
                     }else{
+                        setChioceItem(0);
+                        soudongFlag = true;autoFlag = false;
                         btns_cuangti.get(btn_id).setBackgroundResource(R.drawable.btn_ing);
                     }
                 }
@@ -424,5 +432,28 @@ public class Fragment1 extends Fragment {
             Log.i("Fragment1", e.toString());
             return;
         }
+    }
+
+    @UiThread
+    public void showData(byte[] datas, String str_1){
+        UIUtils.showToastSafe(str_1 + datas[3]);
+        switch(datas[1]){
+            case (byte) 0x0a:
+                tv_cuangti_tuibujiaodu.setText(datas[3] + "°");
+                break;
+            case (byte) 0x0b:
+                tv_cuangti_beibujiaodu.setText(datas[3] + "°");
+                break;
+            case (byte) 0x0c:
+                qibeicisu = datas[3];
+                break;
+            case (byte) 0x0d:
+                wantuicisu = datas[3];
+                break;
+            case (byte) 0x0e:
+                fansencisu = datas[3];
+                break;
+        }
+        tv_cuangti_cisu.setText("今天          起背次数:" + qibeicisu + "          弯腿次数:" + wantuicisu + "          翻身次数:" + fansencisu);
     }
 }

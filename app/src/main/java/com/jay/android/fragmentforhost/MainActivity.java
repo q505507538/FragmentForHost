@@ -33,8 +33,9 @@ import org.androidannotations.annotations.WindowFeature;
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 public class MainActivity extends BaseActivity {
     private byte[] sendbytes = null;
-    private static final String mac[] = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:8C:1F"}; // 生产
-//    private static final String mac[] = new String[]{"78:A5:04:8D:18:2A","78:A5:04:8D:18:2A"}; // 开发
+//    private static final String mac[] = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:8C:1F"}; // 生产
+    private static final String mac[] = new String[]{"78:A5:04:8D:18:2A","78:A5:04:8D:18:2A"}; // 开发
+//    private static final String mac[] = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:98:AC"}; // 临时
     private static Integer currentFg = 0;
     private static Boolean[] stopFlag = {false,false,false,false,false};
     // 定义五个Fragment的对象

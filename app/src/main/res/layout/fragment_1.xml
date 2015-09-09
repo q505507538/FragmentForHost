@@ -100,8 +100,8 @@
 
                     <Button
                         android:id="@+id/btn_cuangti_reset"
-                        android:layout_width="92px"
-                        android:layout_height="34px"
+                        android:layout_width="150px"
+                        android:layout_height="55px"
                         android:layout_marginLeft="30dp"
                         android:background="@drawable/btn_cuangti_reset" />
                 </LinearLayout>
@@ -204,7 +204,7 @@
                         android:layout_width="69px"
                         android:layout_height="34px"
                         android:layout_marginLeft="180px"
-                        android:background="@drawable/btn_on" />
+                        android:background="@drawable/btn_off" />
 
                 </LinearLayout>
 
@@ -381,7 +381,18 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="203px"
-                android:text="腿部角度： 180°"
+                android:text="腿部角度： "
+                android:textColor="#408650"
+                android:textSize="17.93px" />
+
+            <TextView
+                android:id="@+id/tv_cuangti_tuibujiaodu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="0px"
+                android:text="180°"
                 android:textColor="#408650"
                 android:textSize="17.93px" />
 
@@ -391,7 +402,18 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="80px"
-                android:text="背部角度：180°"
+                android:text="背部角度："
+                android:textColor="#408650"
+                android:textSize="17.93px" />
+
+            <TextView
+                android:id="@+id/tv_cuangti_beibujiaodu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:layout_marginLeft="0px"
+                android:text="180°"
                 android:textColor="#408650"
                 android:textSize="17.93px" />
         </LinearLayout>
@@ -443,6 +465,7 @@
                 android:background="#d2d2d2" />
 
             <TextView
+                android:id="@+id/tv_cuangti_cisu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="17.93px"
