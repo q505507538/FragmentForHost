@@ -92,14 +92,14 @@
                 android:visibility="visible">
                 <!-- 复位床体-->
                 <LinearLayout
-                    android:id="@+id/ll_cuangti_reset"
+                    android:id="@+id/ll_cuangti_reset_soudong"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_gravity="right"
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_cuangti_reset"
+                        android:id="@+id/btn_cuangti_reset_soudong"
                         android:layout_width="150px"
                         android:layout_height="55px"
                         android:layout_marginLeft="30dp"
@@ -137,17 +137,18 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/btn_cuangti_xiatui"
-                        android:layout_width="185px"
-                        android:layout_height="51px"
-                        android:background="@drawable/btn_cuangti_xiatui" />
-
-                    <Button
                         android:id="@+id/btn_cuangti_taitui"
                         android:layout_width="185px"
                         android:layout_height="51px"
-                        android:layout_marginLeft="19px"
                         android:background="@drawable/btn_cuangti_taitui" />
+
+                    <Button
+                        android:id="@+id/btn_cuangti_zetui"
+                        android:layout_width="185px"
+                        android:layout_height="51px"
+                        android:layout_marginLeft="19px"
+                        android:background="@drawable/btn_cuangti_zetui" />
+
                 </LinearLayout>
 
                 <!-- 左翻身-右翻身 -->
@@ -182,6 +183,23 @@
                 android:layout_marginTop="60px"
                 android:orientation="vertical"
                 android:visibility="gone">
+
+                <!-- 复位床体-->
+                <LinearLayout
+                    android:id="@+id/ll_cuangti_reset_auto"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginBottom="15dp"
+                    android:layout_gravity="right"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/btn_cuangti_reset_auto"
+                        android:layout_width="150px"
+                        android:layout_height="55px"
+                        android:layout_marginLeft="30dp"
+                        android:background="@drawable/btn_cuangti_reset" />
+                </LinearLayout>
 
                 <!-- 自动翻身 -->
                 <LinearLayout
@@ -231,7 +249,7 @@
                         android:textSize="17.93px" />
 
                     <Button
-                        android:id="@+id/btn_fansenzouqi_sub"
+                        android:id="@+id/btn_cuangti_fansenzouqi_sub"
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
@@ -239,22 +257,32 @@
                         android:background="@drawable/btn_sub" />
 
                     <EditText
-                        android:id="@+id/edt_zidongfansen"
+                        android:id="@+id/edt_cuangti_fansenzouqi"
                         android:layout_width="102px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="14px"
                         android:background="@drawable/edt_n"
                         android:gravity="center"
-                        android:hint="10" />
+                        android:focusable="false"
+                        android:hint="1"
+                        android:text="1"/>
 
                     <Button
-                        android:id="@+id/btn_fansenzouqi_add"
+                        android:id="@+id/btn_cuangti_fansenzouqi_add"
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15px"
                         android:background="@drawable/btn_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text=" 分钟"
+                        android:textColor="#707070"
+                        android:textSize="17.93px" />
 
                 </LinearLayout>
 
@@ -275,7 +303,7 @@
                         android:textSize="17.93px" />
 
                     <Button
-                        android:id="@+id/btn_fansenjiaodu_sub"
+                        android:id="@+id/btn_cuangti_fansenjiaodu_sub"
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
@@ -283,22 +311,32 @@
                         android:background="@drawable/btn_sub" />
 
                     <EditText
-                        android:id="@+id/edt_fansenjiaodu"
+                        android:id="@+id/edt_cuangti_fansenjiaodu"
                         android:layout_width="102px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="14px"
                         android:background="@drawable/edt_n"
                         android:gravity="center"
-                        android:hint="120" />
+                        android:focusable="false"
+                        android:hint="5"
+                        android:text="5"/>
 
                     <Button
-                        android:id="@+id/btn_fansenjiaodu_add"
+                        android:id="@+id/btn_cuangti_fansenjiaodu_add"
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15px"
                         android:background="@drawable/btn_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text=" 度"
+                        android:textColor="#707070"
+                        android:textSize="17.93px" />
 
                 </LinearLayout>
 
@@ -319,30 +357,40 @@
                         android:textSize="17.93px" />
 
                     <Button
-                        android:id="@+id/btn_zongsicang_sub"
+                        android:id="@+id/btn_cuangti_zongsicang_sub"
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
-                        android:layout_marginLeft="36.5px"
+                        android:layout_marginLeft="41px"
                         android:background="@drawable/btn_sub" />
 
                     <EditText
-                        android:id="@+id/edt_zongsicang"
+                        android:id="@+id/edt_cuangti_zongsicang"
                         android:layout_width="102px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="14px"
                         android:background="@drawable/edt_n"
                         android:gravity="center"
-                        android:hint="3" />
+                        android:focusable="false"
+                        android:hint="10"
+                        android:text="10"/>
 
                     <Button
-                        android:id="@+id/btn_zongsicang_add"
+                        android:id="@+id/btn_cuangti_zongsicang_add"
                         android:layout_width="38px"
                         android:layout_height="38px"
                         android:layout_gravity="center_vertical"
                         android:layout_marginLeft="15px"
                         android:background="@drawable/btn_add" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center_vertical"
+                        android:text=" 分钟"
+                        android:textColor="#707070"
+                        android:textSize="17.93px" />
 
                 </LinearLayout>
             </LinearLayout>
