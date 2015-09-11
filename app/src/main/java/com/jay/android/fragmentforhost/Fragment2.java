@@ -128,8 +128,8 @@ public class Fragment2 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-//        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:8C:1F"); // 生产
-        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
+        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:8C:1F"); // 生产
+//        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
     }
 
     BLEHelp bleHelp = null;
@@ -553,44 +553,56 @@ public class Fragment2 extends Fragment {
             case 7:
                 BackgroundExecutor.cancelAll("qingsuitongStatus_task", true);
                 img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_quesui);
+                flag=false;
+                syncButton(-1);
                 qingsuitongStatus_task();
                 break;
             case 5:
                 BackgroundExecutor.cancelAll("yaosuitongStatus_task", true);
                 img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_quesui);
+                flag=false;
+                syncButton(-1);
                 yaosuitongStatus_task();
                 break;
             case 4:
                 BackgroundExecutor.cancelAll("wusuitongStatus_task", true);
                 img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_suiman);
+                flag=false;
+                syncButton(-1);
                 wusuitongStatus_task();
                 break;
         }
     }
 
-    @Background(id="qingsuitongStatus_task", delay=3000)
+    @Background(id="qingsuitongStatus_task", delay=2000)
     public void qingsuitongStatus_task() {
         qingsuitongStatus();
     }
-    @Background(id="yaosuitongStatus_task", delay=3000)
+    @Background(id="yaosuitongStatus_task", delay=2000)
     public void yaosuitongStatus_task() {
         yaosuitongStatus();
     }
-    @Background(id="wusuitongStatus_task", delay=3000)
+    @Background(id="wusuitongStatus_task", delay=2000)
     public void wusuitongStatus_task() {
         wusuitongStatus();
     }
 
     @UiThread
     public void qingsuitongStatus() {
+        flag=true;
+        syncButton(-1);
         img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_normal);
     }
     @UiThread
     public void yaosuitongStatus() {
+        flag=true;
+        syncButton(-1);
         img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_normal);
     }
     @UiThread
     public void wusuitongStatus() {
+        flag=true;
+        syncButton(-1);
         img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_normal);
     }
 }
