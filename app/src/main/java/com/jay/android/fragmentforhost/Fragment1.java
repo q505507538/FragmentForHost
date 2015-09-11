@@ -3,10 +3,10 @@ package com.jay.android.fragmentforhost;
 import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 
@@ -30,9 +30,14 @@ import java.util.List;
 public class Fragment1 extends Fragment {
     private byte[] sendbytes = null;
     private Activity activity;
-    private static int qibeicisu = 0;
-    private static int wantuicisu = 0;
-    private static int fansencisu = 0;
+
+    private static int qibeicisu = 0;   // 起背次数
+    private static int wantuicisu = 0;  // 弯腿次数
+    private static int fansencisu = 0;  // 翻身次数
+
+    private static int fansenzouqi = 1; // 翻身周期是0-60分钟
+    private static int fansenjiaodu = 5; // 翻身角度是0-30度
+    private static int zongsicang = 10;  // 总时长是0-3600分
 
     @ViewById
     LinearLayout ll_cuanti_soudong;
@@ -55,36 +60,28 @@ public class Fragment1 extends Fragment {
     TextView tv_cuangti_cisu;
 
     @ViewById
+    EditText edt_cuangti_fansenzouqi;
+    @ViewById
+    EditText edt_cuangti_fansenjiaodu;
+    @ViewById
+    EditText edt_cuangti_zongsicang;
+
+    @ViewById
     View soudong_selected;
     @ViewById
     View zidong_selected;
 
-    @ViewById // 起背按钮
-    Button btn_cuangti_qibei;
-    @ViewById // 躺平按钮
-    Button btn_cuangti_tangping;
-    @ViewById // 下腿按钮
-    Button btn_cuangti_xiatui;
-    @ViewById // 抬腿按钮
-    Button btn_cuangti_taitui;
-    @ViewById // 左翻身
-    Button btn_cuangti_zuofansen;
-    @ViewById // 右翻身
-    Button btn_cuangti_youfansen;
-    @ViewById // 自动翻身
-    Button btn_cuangti_zidongfansen;
-    @ViewById // 复位
-    Button btn_cuangti_reset;
     // 按钮组
     @ViewsById({R.id.btn_cuangti_qibei,
             R.id.btn_cuangti_tangping,
-            R.id.btn_cuangti_xiatui,
             R.id.btn_cuangti_taitui,
+            R.id.btn_cuangti_zetui,
             R.id.btn_cuangti_youfansen,
             R.id.btn_cuangti_zuofansen,
             R.id.btn_cuangti_zidongfansen})
     List<Button> btns_cuangti;
 
+    //                                     起背,
     private static Boolean buttonFlag[] = {true,true,true,true,true,true,true,true};
     private static Boolean flag = true; // 为按钮控制开始和暂停的状态,true为开始,false为暂停
     private static Boolean autoFlag = false; // 为自动模式互锁控制状态,true为锁,false为不锁
@@ -107,8 +104,8 @@ public class Fragment1 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-//        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:98:AC"); // 生产
-        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
+        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:98:AC"); // 生产
+//        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
     }
 
     // 滑块选择处理(手动,自动)
@@ -133,174 +130,172 @@ public class Fragment1 extends Fragment {
         }
     }
 
-    // 起背按钮
-    @Click(R.id.btn_cuangti_qibei)
-    void qibeiButtonClicked() {
-//        if(buttonFlag[0]) {
-////            sendbytes = getSendDatas("b1010a010000001b11220d0a", 1, true);
-//            sendbytes = CRCHelp.CRC16("b1010a010000001b11220d0a");
-//            UIUtils.showToastSafe("起背开始b1010a010000001b11220d0a");
-////            sendbytes = bleHelp.getSendDatas("b1010a010000001b11220d0a", 1, true);
-//            btn_cuangti_qibei.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-////            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-////            sendbytes = bleHelp.getSendDatas("b1010a000000001b11220d0a", 1, true);
-//            sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
-//            UIUtils.showToastSafe("起背暂停b1010a000000001b11220d0a");
-//            btn_cuangti_qibei.setBackgroundResource(R.drawable.btn_cuangti_qibei);
-//        }
-//        buttonFlag[0] = !buttonFlag[0];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[0]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_QIBEI_START_STR, DataHelp.CUANGTI_QIBEI_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_QIBEI_PAUSE_STR, DataHelp.CUANGTI_QIBEI_PAUSE);
+
+    @Click({R.id.btn_cuangti_qibei,       // 起背按钮
+            R.id.btn_cuangti_tangping,    // 躺平按钮
+            R.id.btn_cuangti_taitui,      // 抬腿按钮
+            R.id.btn_cuangti_zetui,       // 折腿按钮
+            R.id.btn_cuangti_youfansen,   // 右翻身按钮
+            R.id.btn_cuangti_zuofansen,   // 左翻身按钮
+            R.id.btn_cuangti_zidongfansen,// 自动翻身按钮
+            R.id.btn_cuangti_reset_soudong,// 手动复位按钮
+            R.id.btn_cuangti_reset_auto})  // 自动复位按钮
+    void qibeiButtonClicked(View view) {
+        switch (view.getId()){
+            case R.id.btn_cuangti_qibei:
+                if(buttonFlag[0]){
+                    if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_QIBEI_START_STR, DataHelp.CUANGTI_QIBEI_START);
+                    else bleHelp.sendDatas(DataHelp.CUANGTI_QIBEI_PAUSE_STR, DataHelp.CUANGTI_QIBEI_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_tangping:
+                if(buttonFlag[1]){
+                    if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_PINGTANG_START_STR, DataHelp.CUANGTI_PINGTANG_START);
+                    else bleHelp.sendDatas(DataHelp.CUANGTI_PINGTANG_PAUSE_STR, DataHelp.CUANGTI_PINGTANG_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_taitui:
+                if(buttonFlag[2]){
+                    if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_TAITUI_START_STR, DataHelp.CUANGTI_TAITUI_START);
+                    else bleHelp.sendDatas(DataHelp.CUANGTI_TAITUI_PAUSE_STR, DataHelp.CUANGTI_TAITUI_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_zetui:
+                if(buttonFlag[3]){
+                    if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_ZETUI_START_STR, DataHelp.CUANGTI_ZETUI_START);
+                    else bleHelp.sendDatas(DataHelp.CUANGTI_ZETUI_PAUSE_STR, DataHelp.CUANGTI_ZETUI_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_youfansen:
+                if(buttonFlag[4]){
+                    if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_YOUFANSEN_START_STR, DataHelp.CUANGTI_YOUFANSEN_START);
+                    else bleHelp.sendDatas(DataHelp.CUANGTI_YOUFANSEN_PAUSE_STR, DataHelp.CUANGTI_YOUFANSEN_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_zuofansen:
+                if(buttonFlag[5]){
+                    if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_START_STR, DataHelp.CUANGTI_ZUOFANSEN_START);
+                    else bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_PAUSE_STR, DataHelp.CUANGTI_ZUOFANSEN_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_zidongfansen:
+                if(buttonFlag[6]){
+                    if(flag) {
+                        sendParameters();
+                        bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_START_STR, DataHelp.CUANGTI_FANSEN_AUTO_START);
+                    }else bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_PAUSE_STR, DataHelp.CUANGTI_FANSEN_AUTO_PAUSE);
+                }
+                break;
+            case R.id.btn_cuangti_reset_soudong:
+                if(buttonFlag[7]) bleHelp.sendDatas(DataHelp.CUANGTI_RESET_START_STR, DataHelp.CUANGTI_RESET_START);
+                else UIUtils.showToastSafe("复位尚未完成");
+                break;
+            case R.id.btn_cuangti_reset_auto:
+                if(buttonFlag[7]) bleHelp.sendDatas(DataHelp.CUANGTI_RESET_START_STR, DataHelp.CUANGTI_RESET_START);
+                else UIUtils.showToastSafe("复位尚未完成");
+                break;
         }
     }
 
-    // 躺平按钮
-    @Click(R.id.btn_cuangti_tangping)
-    void tangpingButtonClicked() {
-//        if(buttonFlag[1]) {
-//            sendbytes = CRCHelp.CRC16("b1010a000100001b11220d0a");
-//            UIUtils.showToastSafe("躺平开始b1010a000100001b11220d0a");
-////            sendbytes = getSendDatas("b1010a000100001b11220d0a", 1, true);
-//            btn_cuangti_tangping.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
-//            UIUtils.showToastSafe("躺平暂停b1010a000000001b11220d0a");
-////            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-//            btn_cuangti_tangping.setBackgroundResource(R.drawable.btn_cuangti_tangping);
-//        }
-//        buttonFlag[1] = !buttonFlag[1];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[1]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_PINGTANG_START_STR, DataHelp.CUANGTI_PINGTANG_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_PINGTANG_PAUSE_STR, DataHelp.CUANGTI_PINGTANG_PAUSE);
+    private void sendParameters(){
+        if(fansenzouqi < 0 || fansenzouqi > 60) {
+            UIUtils.showToastSafe("翻身周期" + fansenzouqi + "分钟超过范围");
+            return;
         }
+        if(fansenjiaodu < 0|| fansenjiaodu > 30) {
+            UIUtils.showToastSafe("翻身角度" + fansenjiaodu + "度超过范围");
+            return;
+        }
+        if(zongsicang < 0|| zongsicang > 3600) {
+            UIUtils.showToastSafe("总时长" + zongsicang + "分钟超过范围");
+            return;
+        }
+        byte[] fansenzouqi_data = new byte[]{(byte) 0xb1,(byte) 0x0f,(byte) 0x08,(byte) 0x0a,(byte) 0x00,(byte) 0x1b,(byte) 0x00,(byte) 0x00,(byte) 0x0d,(byte) 0x0a};
+        byte[] fansenjiaodu_data = new byte[]{(byte) 0xb1,(byte) 0x10,(byte) 0x08,(byte) 0x05,(byte) 0x00,(byte) 0x1b,(byte) 0x00,(byte) 0x00,(byte) 0x0d,(byte) 0x0a};
+        byte[] zongsicang_data = new byte[]{(byte) 0xb1,(byte) 0x11,(byte) 0x08,(byte) 0x0a,(byte) 0x00,(byte) 0x1b,(byte) 0x00,(byte) 0x00,(byte) 0x0d,(byte) 0x0a};
+        fansenzouqi_data[3] = (byte) fansenzouqi;
+        sendbytes = CRCHelp.CRC16(fansenzouqi_data, 6);
+        bleHelp.sendDatas("翻身周期", sendbytes);
+        try {
+            Thread.currentThread().sleep(100);//毫秒
+        }catch(Exception e){}
+        fansenjiaodu_data[3] = (byte) fansenjiaodu;
+        sendbytes = CRCHelp.CRC16(fansenjiaodu_data, 6);
+        bleHelp.sendDatas("翻身角度", sendbytes);
+        try {
+            Thread.currentThread().sleep(100);//毫秒
+        }catch(Exception e){}
+        zongsicang_data[4] = (byte) (zongsicang / 255);
+        zongsicang_data[3] = (byte) (zongsicang % 255);
+        sendbytes = CRCHelp.CRC16(zongsicang_data, 6);
+        bleHelp.sendDatas("总时长", sendbytes);
+        try {
+            Thread.currentThread().sleep(100);//毫秒
+        }catch(Exception e){}
     }
 
-    // 下腿按钮
-    @Click(R.id.btn_cuangti_xiatui)
-    void xiatuiButtonClicked() {
-//        if(buttonFlag[2]) {
-//            sendbytes = CRCHelp.CRC16("b1010a000000011b11220d0a");
-//            UIUtils.showToastSafe("下腿开始b1010a000000011b11220d0a");
-////            sendbytes = getSendDatas("b1010a000000011b11220d0a", 1, true);
-//            btn_cuangti_xiatui.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
-//            UIUtils.showToastSafe("下腿暂停b1010a000000001b11220d0a");
-////            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-//            btn_cuangti_xiatui.setBackgroundResource(R.drawable.btn_cuangti_xiatui);
-//        }
-//        buttonFlag[2] = !buttonFlag[2];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[2]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_ZETUI_START_STR, DataHelp.CUANGTI_ZETUI_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_ZETUI_PAUSE_STR, DataHelp.CUANGTI_ZETUI_PAUSE);
+    @Click({R.id.btn_cuangti_fansenzouqi_sub,
+            R.id.btn_cuangti_fansenzouqi_add,
+            R.id.btn_cuangti_fansenjiaodu_sub,
+            R.id.btn_cuangti_fansenjiaodu_add,
+            R.id.btn_cuangti_zongsicang_sub,
+            R.id.btn_cuangti_zongsicang_add})
+    void parametersSettingsButtons(View view) {
+        byte[] fansenzouqi_data = new byte[]{(byte) 0xb1,(byte) 0x0f,(byte) 0x08,(byte) 0x0a,(byte) 0x00,(byte) 0x1b,(byte) 0x00,(byte) 0x00,(byte) 0x0d,(byte) 0x0a};
+        byte[] fansenjiaodu_data = new byte[]{(byte) 0xb1,(byte) 0x10,(byte) 0x08,(byte) 0x05,(byte) 0x00,(byte) 0x1b, (byte) 0x00,(byte) 0x00,(byte) 0x0d,(byte) 0x0a};
+        byte[] zongsicang_data = new byte[]{(byte) 0xb1,(byte) 0x11,(byte) 0x08,(byte) 0x0a,(byte) 0x00,(byte) 0x1b,(byte) 0x00,(byte) 0x00,(byte) 0x0d,(byte) 0x0a};
+        switch (view.getId()){
+            case R.id.btn_cuangti_fansenzouqi_sub:
+                if(fansenzouqi <= 1) fansenzouqi = 0;
+                else fansenzouqi -= 1;
+                edt_cuangti_fansenzouqi.setText("" + fansenzouqi);
+                fansenzouqi_data[3] = (byte) fansenzouqi;
+                sendbytes = CRCHelp.CRC16(fansenzouqi_data, 6);
+                bleHelp.sendDatas("翻身周期", sendbytes);
+                break;
+            case R.id.btn_cuangti_fansenzouqi_add:
+                if(fansenzouqi >= (zongsicang - 1)) fansenzouqi = zongsicang;
+                else fansenzouqi += 1;
+                edt_cuangti_fansenzouqi.setText("" + fansenzouqi);
+                fansenzouqi_data[3] = (byte) fansenzouqi;
+                sendbytes = CRCHelp.CRC16(fansenzouqi_data, 6);
+                bleHelp.sendDatas("翻身周期", sendbytes);
+                break;
+            case R.id.btn_cuangti_fansenjiaodu_sub:
+                if(fansenjiaodu <= 1) fansenjiaodu = 0;
+                else fansenjiaodu -= 1;
+                edt_cuangti_fansenjiaodu.setText("" + fansenjiaodu);
+                fansenjiaodu_data[3] = (byte) fansenjiaodu;
+                sendbytes = CRCHelp.CRC16(fansenjiaodu_data, 6);
+                bleHelp.sendDatas("翻身角度", sendbytes);
+                break;
+            case R.id.btn_cuangti_fansenjiaodu_add:
+                if(fansenjiaodu >= 29) fansenjiaodu = 30;
+                else fansenjiaodu += 1;
+                edt_cuangti_fansenjiaodu.setText("" + fansenjiaodu);
+                fansenjiaodu_data[3] = (byte) fansenjiaodu;
+                sendbytes = CRCHelp.CRC16(fansenjiaodu_data, 6);
+                bleHelp.sendDatas("翻身角度", sendbytes);
+                break;
+            case R.id.btn_cuangti_zongsicang_sub:
+                if(zongsicang <= 5) zongsicang = 0;
+                else zongsicang -= 5;
+                edt_cuangti_zongsicang.setText("" + zongsicang);
+                zongsicang_data[4] = (byte) (zongsicang / 255);
+                zongsicang_data[3] = (byte) (zongsicang % 255);
+                sendbytes = CRCHelp.CRC16(zongsicang_data, 6);
+                bleHelp.sendDatas("总时长", sendbytes);
+                break;
+            case R.id.btn_cuangti_zongsicang_add:
+                if(zongsicang >= (3600 - 5)) zongsicang = 3600;
+                else zongsicang += 5;
+                edt_cuangti_zongsicang.setText("" + zongsicang);
+                zongsicang_data[4] = (byte) (zongsicang / 255);
+                zongsicang_data[3] = (byte) (zongsicang % 255);
+                sendbytes = CRCHelp.CRC16(zongsicang_data, 6);
+                bleHelp.sendDatas("总时长", sendbytes);
+                break;
         }
-    }
-
-    // 抬腿按钮
-    @Click(R.id.btn_cuangti_taitui)
-    void taituiButtonClicked() {
-//        if(buttonFlag[3]) {
-//            sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
-//            UIUtils.showToastSafe("抬腿开始b1010a000000001b11220d0a");
-////            sendbytes = getSendDatas("b1010a000001001b11220d0a", 1, true);
-//            btn_cuangti_taitui.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b1010a000000001b11220d0a");
-//            UIUtils.showToastSafe("抬腿暂停b1010a000000001b11220d0a");
-////            sendbytes = getSendDatas("b1010a000000001b11220d0a", 1, true);
-//            btn_cuangti_taitui.setBackgroundResource(R.drawable.btn_cuangti_taitui);
-//        }
-//        buttonFlag[3] = !buttonFlag[3];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[3]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_TAITUI_START_STR, DataHelp.CUANGTI_TAITUI_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_TAITUI_PAUSE_STR, DataHelp.CUANGTI_TAITUI_PAUSE);
-        }
-    }
-
-    // 右翻身按钮
-    @Click(R.id.btn_cuangti_youfansen)
-    void youfansenButtonClicked() {
-//        if(buttonFlag[5]) {
-//            sendbytes = CRCHelp.CRC16("b2020a010000002b11220d0a");
-//            UIUtils.showToastSafe("右翻身开始b2020a010000002b11220d0a");
-////            sendbytes = getSendDatas("b2020a010000002b11220d0a", 1, true);
-//            btn_cuangti_youfansen.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
-//            UIUtils.showToastSafe("右翻身暂停b2020a000000002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-//            btn_cuangti_youfansen.setBackgroundResource(R.drawable.btn_cuangti_youfansen);
-//        }
-//        buttonFlag[5] = !buttonFlag[5];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[4]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_YOUFANSEN_START_STR, DataHelp.CUANGTI_YOUFANSEN_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_YOUFANSEN_PAUSE_STR, DataHelp.CUANGTI_YOUFANSEN_PAUSE);
-        }
-    }
-
-    // 左翻身按钮
-    @Click(R.id.btn_cuangti_zuofansen)
-    void zuofansenButtonClicked() {
-//        if(buttonFlag[4]) {
-//            sendbytes = CRCHelp.CRC16("b2020a000100002b11220d0a");
-//            UIUtils.showToastSafe("左翻身开始b2020a000100002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000100002b11220d0a", 1, true);
-//            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_stop);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
-//            UIUtils.showToastSafe("左翻身暂停b2020a000000002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-//            btn_cuangti_zuofansen.setBackgroundResource(R.drawable.btn_cuangti_zuofansen);
-//        }
-//        buttonFlag[4] = !buttonFlag[4];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[5]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_START_STR, DataHelp.CUANGTI_ZUOFANSEN_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_ZUOFANSEN_PAUSE_STR, DataHelp.CUANGTI_ZUOFANSEN_PAUSE);
-        }
-    }
-
-    // 自动翻身按钮
-    @Click(R.id.btn_cuangti_zidongfansen)
-    void zidongfansenButtonClicked() {
-//        if(buttonFlag[6]) {
-//            sendbytes = CRCHelp.CRC16("b2020a000001002b11220d0a");
-//            UIUtils.showToastSafe("自动翻身开始b2020a000001002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000001002b11220d0a", 1, true);
-//            btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_off);
-//        } else {
-//            sendbytes = CRCHelp.CRC16("b2020a000000002b11220d0a");
-//            UIUtils.showToastSafe("自动翻身暂停b2020a000001002b11220d0a");
-////            sendbytes = getSendDatas("b2020a000000002b11220d0a", 1, true);
-//            btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_on);
-//        }
-//        buttonFlag[6] = !buttonFlag[6];
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[6]){
-            if(flag) bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_START_STR, DataHelp.CUANGTI_FANSEN_AUTO_START);
-            else bleHelp.sendDatas(DataHelp.CUANGTI_FANSEN_AUTO_PAUSE_STR, DataHelp.CUANGTI_FANSEN_AUTO_PAUSE);
-        }
-    }
-
-    // 复位按钮
-    @Click(R.id.btn_cuangti_reset)
-    void resetButtonClicked() {
-//        sendbytes = CRCHelp.CRC16("b3030a010000003b11220d0a");
-//        UIUtils.showToastSafe("复位b3030a010000003b11220d0a");
-//        bleHelp.sendDatas(sendbytes);
-        if(buttonFlag[6]){
-            bleHelp.sendDatas(DataHelp.CUANGTI_RESET_START_STR, DataHelp.CUANGTI_RESET_START);
-        }else{
-            UIUtils.showToastSafe("复位尚未完成");
-        }
-
     }
 
     // 设置回调方法
@@ -350,7 +345,7 @@ public class Fragment1 extends Fragment {
      */
     @Background
     public void checkType(byte[] datas, final BluetoothGattCharacteristic data_char){
-        String[] str_1 = new String[]{"第1位错误","起背","躺平","折腿","抬腿","右翻身","左翻身","自动翻身","复位","急停","腿部角度","背部角度","起背次数","弯腿次数","翻身次数"};
+        String[] str_1 = new String[]{"第1位错误","起背","躺平","抬腿","折腿","右翻身","左翻身","自动翻身","复位","急停","腿部角度","背部角度","起背次数","弯腿次数","翻身次数"};
         int btn_id = -1;
         if(datas[1] > 0 && datas[1] < 10){
             checkButtonStatus(datas, str_1[datas[1]], datas[1] - 1);
@@ -377,11 +372,13 @@ public class Fragment1 extends Fragment {
                 break;
             case (byte) 0x04:
                 str_2 = "暂停";
-                btn_id = -1; // 不锁定按钮
+                if(datas[1] == 7) btn_id = -2; // 自动翻身暂停时锁定按钮
+                else btn_id = -1; // 不锁定按钮
                 break;
             case (byte)0x08:
                 str_2 = "完成";
-                btn_id = -1; // 不锁定按钮
+                if(datas[1] == 7) btn_id = -2; // 自动翻身暂停时锁定按钮
+                else btn_id = -1; // 不锁定按钮
                 break;
         }
         syncButton(btn_id); // 同步按钮状态
@@ -395,16 +392,21 @@ public class Fragment1 extends Fragment {
      */
     @UiThread
     public void syncButton(int btn_id){
-        String[] name = new String[] { "qibei", "tangping", "xiatui", "taitui", "youfansen", "zuofansen", "zidongfansen" };
+        String[] name = new String[] { "qibei", "tangping", "taitui", "zetui", "youfansen", "zuofansen", "zidongfansen" };
         try {
-            if(btn_id == -1){
+            if (btn_id == -1) {
                 flag = true;
-                buttonFlag = new Boolean[]{true,true,true,true,true,true,true,true};
-                for (int i = 0; i < 6; i++) {
-                    btns_cuangti.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_cuangti_" + name[i]).get(R.drawable.class));
-                }
-                btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_off);
+                buttonFlag = new Boolean[]{true, true, true, true, true, true, true, true};
+                for (int i = 0; i < 6; i++)  btns_cuangti.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_cuangti_" + name[i]).get(R.drawable.class));
+                btns_cuangti.get(6).setBackgroundResource(R.drawable.btn_off);
                 soudongFlag = false;autoFlag = false;
+            }else if(btn_id == -2){
+                setChioceItem(1);
+                flag = true;
+                buttonFlag = new Boolean[]{true, true, true, true, true, true, false, true};
+                for (int i = 0; i < 6; i++)  btns_cuangti.get(i).setBackgroundResource((int) R.drawable.class.getDeclaredField("btn_cuangti_" + name[i]).get(R.drawable.class));
+                btns_cuangti.get(6).setBackgroundResource(R.drawable.btn_off);
+                soudongFlag = false;autoFlag = true;
             }else{
                 flag = false;
                 buttonFlag = new Boolean[]{false,false,false,false,false,false,false,false};
@@ -418,7 +420,7 @@ public class Fragment1 extends Fragment {
                         btns_cuangti.get(btn_id).setBackgroundResource(R.drawable.btn_ing);
                     }else if(btn_id == 6){
                         setChioceItem(1);
-                        btn_cuangti_zidongfansen.setBackgroundResource(R.drawable.btn_on);
+                        btns_cuangti.get(6).setBackgroundResource(R.drawable.btn_on);
                         soudongFlag = false;autoFlag = true;
                     }else{
                         setChioceItem(0);
