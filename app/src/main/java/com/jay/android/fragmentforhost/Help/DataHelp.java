@@ -19,14 +19,6 @@ public class DataHelp {
     public final static byte[] CUANGTI_PINGTANG_ING = new byte[]{(byte) 0xb2,(byte) 0x02,(byte) 0x08,(byte) 0x02,(byte) 0x00,(byte) 0x2b,(byte) 0xb6,(byte) 0x81};                             //躺平执行中
     public final static byte[] CUANGTI_PINGTANG_UNFINISH = new byte[]{(byte) 0xb2,(byte) 0x02,(byte) 0x08,(byte) 0x04,(byte) 0x00,(byte) 0x2b,(byte) 0xb7,(byte) 0x61};                        //躺平暂停
     public final static byte[] CUANGTI_PINGTANG_FINISH = new byte[]{(byte) 0xb2,(byte) 0x02,(byte) 0x08,(byte) 0x08,(byte) 0x00,(byte) 0x2b,(byte) 0xb4,(byte) 0xa1};                          //躺平完成
-    //折腿
-    public final static String CUANGTI_ZETUI_START_STR = "折腿开始";
-    public final static String CUANGTI_ZETUI_PAUSE_STR = "折腿暂停";
-    public final static byte[] CUANGTI_ZETUI_START = new byte[]{(byte) 0xb1,(byte) 0x04,(byte) 0x08,(byte) 0x01,(byte) 0x00,(byte) 0x1b,(byte) 0xf9,(byte) 0x91,(byte) 0x0d,(byte) 0x0a};     //折腿开始
-    public final static byte[] CUANGTI_ZETUI_PAUSE = new byte[]{(byte) 0xb1,(byte) 0x04,(byte) 0x08,(byte) 0x00,(byte) 0x00,(byte) 0x1b,(byte) 0xa8,(byte) 0x51,(byte) 0x0d,(byte) 0x0a};     //折腿暂停
-    public final static byte[] CUANGTI_ZETUI_ING = new byte[]{(byte) 0xb2,(byte) 0x04,(byte) 0x08,(byte) 0x02,(byte) 0x00,(byte) 0x2b,(byte) 0xb6,(byte) 0x09};                               //折腿执行中
-    public final static byte[] CUANGTI_ZETUI_UNFINISH = new byte[]{(byte) 0xb2,(byte) 0x04,(byte) 0x08,(byte) 0x04,(byte) 0x00,(byte) 0x2b,(byte) 0xb7,(byte) 0xe9};                          //折腿暂停
-    public final static byte[] CUANGTI_ZETUI_FINISH = new byte[]{(byte) 0xb2,(byte) 0x04,(byte) 0x08,(byte) 0x08,(byte) 0x00,(byte) 0x2b,(byte) 0xb4,(byte) 0x29};                            //折腿完成
     //抬腿
     public final static String CUANGTI_TAITUI_START_STR = "抬腿开始";
     public final static String CUANGTI_TAITUI_PAUSE_STR = "抬腿暂停";
@@ -35,6 +27,14 @@ public class DataHelp {
     public final static byte[] CUANGTI_TAITUI_ING = new byte[]{(byte) 0xb2,(byte) 0x03,(byte) 0x08,(byte) 0x02,(byte) 0x00,(byte) 0x2b,(byte) 0x76,(byte) 0xbc};                               //抬腿执行中
     public final static byte[] CUANGTI_TAITUI_UNFINISH = new byte[]{(byte) 0xb2,(byte) 0x03,(byte) 0x08,(byte) 0x04,(byte) 0x00,(byte) 0x2b,(byte) 0x77,(byte) 0x5c};                          //抬腿暂停
     public final static byte[] CUANGTI_TAITUI_FINISH = new byte[]{(byte) 0xb2,(byte) 0x03,(byte) 0x08,(byte) 0x08,(byte) 0x00,(byte) 0x2b,(byte) 0x74,(byte) 0x9c};                            //抬腿完成
+    //折腿
+    public final static String CUANGTI_ZETUI_START_STR = "折腿开始";
+    public final static String CUANGTI_ZETUI_PAUSE_STR = "折腿暂停";
+    public final static byte[] CUANGTI_ZETUI_START = new byte[]{(byte) 0xb1,(byte) 0x04,(byte) 0x08,(byte) 0x01,(byte) 0x00,(byte) 0x1b,(byte) 0xf9,(byte) 0x91,(byte) 0x0d,(byte) 0x0a};     //折腿开始
+    public final static byte[] CUANGTI_ZETUI_PAUSE = new byte[]{(byte) 0xb1,(byte) 0x04,(byte) 0x08,(byte) 0x00,(byte) 0x00,(byte) 0x1b,(byte) 0xa8,(byte) 0x51,(byte) 0x0d,(byte) 0x0a};     //折腿暂停
+    public final static byte[] CUANGTI_ZETUI_ING = new byte[]{(byte) 0xb2,(byte) 0x04,(byte) 0x08,(byte) 0x02,(byte) 0x00,(byte) 0x2b,(byte) 0xb6,(byte) 0x09};                               //折腿执行中
+    public final static byte[] CUANGTI_ZETUI_UNFINISH = new byte[]{(byte) 0xb2,(byte) 0x04,(byte) 0x08,(byte) 0x04,(byte) 0x00,(byte) 0x2b,(byte) 0xb7,(byte) 0xe9};                          //折腿暂停
+    public final static byte[] CUANGTI_ZETUI_FINISH = new byte[]{(byte) 0xb2,(byte) 0x04,(byte) 0x08,(byte) 0x08,(byte) 0x00,(byte) 0x2b,(byte) 0xb4,(byte) 0x29};                            //折腿完成
     //右翻身
     public final static String CUANGTI_YOUFANSEN_START_STR = "右翻身开始";
     public final static String CUANGTI_YOUFANSEN_PAUSE_STR = "右翻身暂停";
@@ -70,10 +70,7 @@ public class DataHelp {
     public final static byte[] CUANGTI_STOP_ING = new byte[]{(byte) 0xb2,(byte) 0x09,(byte) 0x08,(byte) 0x02,(byte) 0x00,(byte) 0x2b,(byte) 0x77,(byte) 0x24};                                 //急停执行中
     public final static byte[] CUANGTI_STOP_FINISH = new byte[]{(byte) 0xb2,(byte) 0x09,(byte) 0x08,(byte) 0x08,(byte) 0x00,(byte) 0x2b,(byte) 0x75,(byte) 0x04};                              //急停完成
 
-
-
-
-    //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+    ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
     // 冲洗臀部
     public final static String DAXIAOBIAN_CONGXITUNBU_STR = "冲洗臀部";
