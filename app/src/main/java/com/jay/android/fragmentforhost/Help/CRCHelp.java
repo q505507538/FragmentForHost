@@ -113,14 +113,24 @@ public class CRCHelp {
         return (ucCRCHi & 0x00ff) & 0xffff;
     }
 
-    public static byte[] CRC16(String src) {
+    public static byte[] CRC16(String src, int length) {
         byte[] datas = HexUtils.HexString2Bytes(src);
-        byte[] tmp = new byte[8];
-        for(int i = 0; i < 8; i++) tmp[i] = datas[i];
+        byte[] tmp = new byte[length];
+        for(int i = 0; i < length; i++) tmp[i] = datas[i];
         int crcHi = calcCrc16Hi(tmp, 0, tmp.length, 0xffff);
-        datas[9]=(byte) crcHi;
         int crcLo = calcCrc16Lo(tmp, 0, tmp.length, 0xffff);
-        datas[8]=(byte) crcLo;
+        datas[length]=(byte) crcLo;
+        datas[length + 1]=(byte) crcHi;
+        return datas;
+    }
+
+    public static byte[] CRC16(byte[] datas, int length) {
+        byte[] tmp = new byte[length];
+        for(int i = 0; i < length; i++) tmp[i] = datas[i];
+        int crcHi = calcCrc16Hi(tmp, 0, tmp.length, 0xffff);
+        int crcLo = calcCrc16Lo(tmp, 0, tmp.length, 0xffff);
+        datas[length]=(byte) crcLo;
+        datas[length + 1]=(byte) crcHi;
         return datas;
     }
 }
