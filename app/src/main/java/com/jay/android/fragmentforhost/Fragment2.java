@@ -128,7 +128,7 @@ public class Fragment2 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:8C:1F"); // 生产
+//        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:8C:1F"); // 生产
 //        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
     }
 
