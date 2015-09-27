@@ -3,7 +3,6 @@ package com.jay.android.fragmentforhost;
 import android.app.Activity;
 import android.app.Fragment;
 import android.bluetooth.BluetoothGattCharacteristic;
-import android.os.Handler;
 import android.util.Log;
 import android.view.View;
 import android.widget.Button;
@@ -13,7 +12,6 @@ import android.widget.TextView;
 
 import com.jay.android.fragmentforhost.Help.BLEHelp;
 import com.jay.android.fragmentforhost.Help.DataHelp;
-import com.jay.android.fragmentforhost.Utils.HexUtils;
 import com.jay.android.fragmentforhost.Utils.SharedPreferencesUtils;
 import com.jay.android.fragmentforhost.Utils.UIUtils;
 import com.mt.ble.mtble.MTBLEMBLE;
@@ -108,6 +106,16 @@ public class Fragment2 extends Fragment {
     ImageView img_daxiaobian_yaosuitong;
     @ViewById  // 污水桶状态图片
     ImageView img_daxiaobian_wusuitong;
+    // 状态图片组
+    @ViewsById({R.id.img_daxiaobian_suiwen,
+            R.id.img_daxiaobian_guandao,
+            R.id.img_daxiaobian_biandian,
+            R.id.img_daxiaobian_dianjiwendu,
+            R.id.img_daxiaobian_wusuitong,
+            R.id.img_daxiaobian_yaosuitong,
+            R.id.img_daxiaobian_qingsuitong,
+            R.id.img_daxiaobian_qingsuitong})
+    List<ImageView> imgs_daxiaobian;
 
     @Click(R.id.ll_daxiaobian_soudong)
     void daxiaobianSoudongLayoutClicked() {
@@ -128,8 +136,7 @@ public class Fragment2 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-//        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:8C:1F"); // 生产
-//        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
+        bleHelp = new BLEHelp(activity, blecallback, DataHelp.mac[1]);
     }
 
     BLEHelp bleHelp = null;
@@ -299,12 +306,30 @@ public class Fragment2 extends Fragment {
     // 尿失禁模式按钮
     @Click(R.id.btn_daxiaobian_niaosijinmosi)
     void niaosijinmosiButtonClicked() {
+        if((Boolean)mosi.get("niaosijinmosi")){
+            if((Boolean)mosi.get("nvxingmosi")){
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NVXING_SETTINGS_STR, DataHelp.DAXIAOBIAN_NVXING_SETTINGS);
+            }else{
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NANXING_SETTINGS_STR, DataHelp.DAXIAOBIAN_NANXING_SETTINGS);
+            }
+        }else{
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NIAOSIJIN_SETTINGS_STR, DataHelp.DAXIAOBIAN_NIAOSIJIN_SETTINGS);
+        }
         setButton("niaosijinmosi", btn_daxiaobian_niaosijinmosi);
     }
 
     // 女性模式按钮
     @Click(R.id.btn_daxiaobian_nvxingmosi)
     void nvxingmosiButtonClicked() {
+        if((Boolean)mosi.get("niaosijinmosi")){
+            bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NIAOSIJIN_SETTINGS_STR, DataHelp.DAXIAOBIAN_NIAOSIJIN_SETTINGS);
+        }else{
+            if((Boolean)mosi.get("nvxingmosi")){
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NANXING_SETTINGS_STR, DataHelp.DAXIAOBIAN_NANXING_SETTINGS);
+            }else{
+                bleHelp.sendDatas(DataHelp.DAXIAOBIAN_NVXING_SETTINGS_STR, DataHelp.DAXIAOBIAN_NVXING_SETTINGS);
+            }
+        }
         setButton("nvxingmosi", btn_daxiaobian_nvxingmosi);
     }
 
@@ -412,10 +437,11 @@ public class Fragment2 extends Fragment {
                 UIUtils.showToastSafe("数据头部校验错误 ");
                 UIUtils.showToastSafe("第0位是:" + datas[0] + "\n第1位是:" + datas[1]);
             }
-        }else{
-            UIUtils.showToastSafe("数据长度校验错误");
-            UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
         }
+//        else{
+//            UIUtils.showToastSafe("数据长度校验错误");
+//            UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
+//        }
     }
 
     /**
@@ -541,68 +567,131 @@ public class Fragment2 extends Fragment {
         Integer data = data_char.getIntValue(BluetoothGattCharacteristic.FORMAT_UINT8, 4);
         for(int i = 0; i < 8; i ++) {
             if((data & (0x80 >> i)) == (0x80 >> i)){
-                UIUtils.showToastSafe(status[i]);
+//                UIUtils.showToastSafe(status[i]);
                 setStatus(i);
             }
         }
+        BackgroundExecutor.cancelAll("clearStatus_task", true);
+        flag=false;
+        syncButton(-1);
+        clearStatus_task();
     }
 
     @UiThread
     public void setStatus(int status) {
-        switch(status){
-            case 7:
-                BackgroundExecutor.cancelAll("qingsuitongStatus_task", true);
-                img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_quesui);
-                flag=false;
-                syncButton(-1);
-                qingsuitongStatus_task();
-                break;
-            case 5:
-                BackgroundExecutor.cancelAll("yaosuitongStatus_task", true);
-                img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_quesui);
-                flag=false;
-                syncButton(-1);
-                yaosuitongStatus_task();
-                break;
-            case 4:
-                BackgroundExecutor.cancelAll("wusuitongStatus_task", true);
-                img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_suiman);
-                flag=false;
-                syncButton(-1);
-                wusuitongStatus_task();
-                break;
+        String[] name = new String[] { "suiwen", "guandao", "biandian", "dianjiwendu", "wusuitong", "yaosuitong", "qingsuitong", "qingsuitong" };
+        try {
+            BackgroundExecutor.cancelAll("Status_task_"+status, true);
+            imgs_daxiaobian.get(status).setImageResource((int) R.drawable.class.getDeclaredField("img_daxiaobian_" + name[status] + "_danger").get(R.drawable.class));
+            switch(status){
+                case 0: Status_task_0();break;
+                case 1: Status_task_1();break;
+                case 2: Status_task_2();break;
+                case 3: Status_task_3();break;
+                case 4: Status_task_4();break;
+                case 5: Status_task_5();break;
+                case 6: Status_task_6();break;
+                case 7: Status_task_7();break;
+            }
+        } catch (Exception e) {
+            // TODO: handle exception
+            Log.i("Fragment2", e.toString());
+            return;
         }
+
+//        switch(status){
+//            case 7:
+//                BackgroundExecutor.cancelAll("qingsuitongStatus_task", true);
+//                img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_danger);
+//                qingsuitongStatus_task();
+//                break;
+//            case 5:
+//                BackgroundExecutor.cancelAll("yaosuitongStatus_task", true);
+//                img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_danger);
+//                yaosuitongStatus_task();
+//                break;
+//            case 4:
+//                BackgroundExecutor.cancelAll("wusuitongStatus_task", true);
+//                img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_danger);
+//                wusuitongStatus_task();
+//                break;
+//        }
     }
 
-    @Background(id="qingsuitongStatus_task", delay=2000)
-    public void qingsuitongStatus_task() {
-        qingsuitongStatus();
+    @Background(id="Status_task_0", delay=2100)
+    public void Status_task_0() {
+        resetStatus(0);
     }
-    @Background(id="yaosuitongStatus_task", delay=2000)
-    public void yaosuitongStatus_task() {
-        yaosuitongStatus();
+    @Background(id="Status_task_1", delay=2100)
+    public void Status_task_1() {
+        resetStatus(1);
     }
-    @Background(id="wusuitongStatus_task", delay=2000)
-    public void wusuitongStatus_task() {
-        wusuitongStatus();
+    @Background(id="Status_task_2", delay=2100)
+    public void Status_task_2() {
+        resetStatus(2);
+    }
+    @Background(id="Status_task_3", delay=2100)
+    public void Status_task_3() {
+        resetStatus(3);
+    }
+    @Background(id="Status_task_4", delay=2100)
+    public void Status_task_4() {
+        resetStatus(4);
+    }
+    @Background(id="Status_task_5", delay=2100)
+    public void Status_task_5() {
+        resetStatus(5);
+    }
+    @Background(id="Status_task_6", delay=2100)
+    public void Status_task_6() {
+        resetStatus(6);
+    }
+    @Background(id="Status_task_0", delay=2100)
+    public void Status_task_7() {
+        resetStatus(7);
+    }
+    @Background(id="clearStatus_task", delay=2300)
+    public void clearStatus_task() {
+        flag=true;
+        syncButton(-1);
     }
 
+//    @Background(id="qingsuitongStatus_task", delay=2100)
+//    public void qingsuitongStatus_task() {
+//        qingsuitongStatus();
+//    }
+//    @Background(id="yaosuitongStatus_task", delay=2100)
+//    public void yaosuitongStatus_task() {
+//        yaosuitongStatus();
+//    }
+//    @Background(id="wusuitongStatus_task", delay=2100)
+//    public void wusuitongStatus_task() {
+//        wusuitongStatus();
+//    }
+
+
+//    @UiThread
+//    public void qingsuitongStatus() {
+//        img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_normal);
+//    }
+//    @UiThread
+//    public void yaosuitongStatus() {
+//        img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_normal);
+//    }
+//    @UiThread
+//    public void wusuitongStatus() {
+//        img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_normal);
+//    }
+
     @UiThread
-    public void qingsuitongStatus() {
-        flag=true;
-        syncButton(-1);
-        img_daxiaobian_qingsuitong.setImageResource(R.drawable.img_daxiaobian_qingsuitong_normal);
-    }
-    @UiThread
-    public void yaosuitongStatus() {
-        flag=true;
-        syncButton(-1);
-        img_daxiaobian_yaosuitong.setImageResource(R.drawable.img_daxiaobian_yaosuitong_normal);
-    }
-    @UiThread
-    public void wusuitongStatus() {
-        flag=true;
-        syncButton(-1);
-        img_daxiaobian_wusuitong.setImageResource(R.drawable.img_daxiaobian_wusuitong_normal);
+    public void resetStatus(int status){
+        String[] name = new String[] { "suiwen", "guandao", "biandian", "dianjiwendu", "wusuitong", "yaosuitong", "qingsuitong", "qingsuitong" };
+        try {
+            imgs_daxiaobian.get(status).setImageResource((int) R.drawable.class.getDeclaredField("img_daxiaobian_" + name[status] + "_normal").get(R.drawable.class));
+        } catch (Exception e) {
+            // TODO: handle exception
+            Log.i("Fragment2", e.toString());
+            return;
+        }
     }
 }

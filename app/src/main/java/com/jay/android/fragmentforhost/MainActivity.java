@@ -33,9 +33,7 @@ import org.androidannotations.annotations.WindowFeature;
 @WindowFeature({ Window.FEATURE_NO_TITLE, Window.FEATURE_INDETERMINATE_PROGRESS })
 public class MainActivity extends BaseActivity {
     private byte[] sendbytes = null;
-//    private static final String mac[] = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:8C:1F"}; // 生产
-    private static final String mac[] = new String[]{"78:A5:04:8D:18:2A","78:A5:04:8D:18:2A"}; // 开发
-//    private static final String mac[] = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:98:AC"}; // 临时
+
     private static Integer currentFg = 0;
     private static Boolean[] stopFlag = {false,false,false,false,false};
     // 定义五个Fragment的对象
@@ -71,28 +69,24 @@ public class MainActivity extends BaseActivity {
     @ViewById // 急停图片
     ImageView stop_image;
 
-    private static BLEHelp bleHelp = null;
+    BLEHelp bleHelp = null;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        bleHelp = new BLEHelp(MainActivity.this, blecallback, mac[0]);
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, DataHelp.mac[0]);
 //        if(!DataHelp.isConnected) Toast.makeText(this, "连接成功", Toast.LENGTH_SHORT).show();
 //        DataHelp.isConnected = true;
     }
 
     @Override
-    protected void initView() {
-
-    }
+    protected void initView() {}
 
     @Override
-    protected void initData() {
-
-    }
+    protected void initData() {}
 
     @Click(R.id.cuangti_layout)
     void cuangtiLayoutClicked() {
-        bleHelp = new BLEHelp(MainActivity.this, blecallback, mac[0]);
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, DataHelp.mac[0]);
         currentFg = 0;
         setChioceItem(fg1);
         cuangti_image.setImageResource(R.drawable.tab_2_p);
@@ -102,7 +96,7 @@ public class MainActivity extends BaseActivity {
 
     @Click(R.id.daxiaobian_layout)
     void daxiaobianLayoutClicked() {
-        bleHelp = new BLEHelp(MainActivity.this, blecallback, mac[1]);
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, DataHelp.mac[1]);
         currentFg = 1;
         setChioceItem(fg2);
         daxiaobian_image.setImageResource(R.drawable.tab_3_p);
@@ -112,18 +106,24 @@ public class MainActivity extends BaseActivity {
 
     @Click(R.id.sangzikangfu_layout)
     void sangzikangfuLayoutClicked() {
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, DataHelp.mac[2]);
+        currentFg = 2;
         setChioceItem(fg3);
         sangzikangfu_image.setImageResource(R.drawable.tab_4_p);
     }
 
     @Click(R.id.xiazikangfu_layout)
     void xiazikangfuLayoutClicked() {
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, DataHelp.mac[3]);
+        currentFg = 3;
         setChioceItem(fg4);
         xiazikangfu_image.setImageResource(R.drawable.tab_5_p);
     }
 
     @Click(R.id.xitongsezi_layout)
     void xitongseziLayoutClicked() {
+        bleHelp = new BLEHelp(MainActivity.this, blecallback, DataHelp.mac[4]);
+        currentFg = 4;
         setChioceItem(fg5);
         xitongsezi_image.setImageResource(R.drawable.tab_6_p);
     }

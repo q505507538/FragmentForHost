@@ -74,7 +74,7 @@
                     android:textSize="17.93px" />
 
                 <Button
-                    android:id="@+id/btn_duanliansicang_sub"
+                    android:id="@+id/btn_xiazikangfu_duanliansicang_sub"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -92,7 +92,7 @@
                     android:hint="10" />
 
                 <Button
-                    android:id="@+id/btn_duanliansicang_add"
+                    android:id="@+id/btn_xiazikangfu_duanliansicang_add"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -126,7 +126,7 @@
                     android:textSize="17.93px" />
 
                 <Button
-                    android:id="@+id/btn_jiaosudu_sub"
+                    android:id="@+id/btn_xiazikangfu_jiaosudu_sub"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -141,10 +141,10 @@
                     android:layout_marginLeft="14px"
                     android:background="@drawable/edt_n"
                     android:gravity="center"
-                    android:hint="3" />
+                    android:hint="1" />
 
                 <Button
-                    android:id="@+id/btn_jiaosudu_add"
+                    android:id="@+id/btn_xiazikangfu_jiaosudu_add"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -178,7 +178,7 @@
                     android:textSize="17.93px" />
 
                 <Button
-                    android:id="@+id/btn_qisijiaodu_sub"
+                    android:id="@+id/btn_xiazikangfu_qisijiaodu_sub"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -196,7 +196,7 @@
                     android:hint="0" />
 
                 <Button
-                    android:id="@+id/btn_qisijiaodu_add"
+                    android:id="@+id/btn_xiazikangfu_qisijiaodu_add"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -230,7 +230,7 @@
                     android:textSize="17.93px" />
 
                 <Button
-                    android:id="@+id/btn_jiesujiaodu_sub"
+                    android:id="@+id/btn_xiazikangfu_jiesujiaodu_sub"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -245,10 +245,10 @@
                     android:layout_marginLeft="14px"
                     android:background="@drawable/edt_n"
                     android:gravity="center"
-                    android:hint="180" />
+                    android:hint="20" />
 
                 <Button
-                    android:id="@+id/btn_jiesujiaodu_add"
+                    android:id="@+id/btn_xiazikangfu_jiesujiaodu_add"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -282,7 +282,7 @@
                     android:textSize="17.93px" />
 
                 <Button
-                    android:id="@+id/btn_huancongjiaodu_sub"
+                    android:id="@+id/btn_xiazikangfu_huancongjiaodu_sub"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -300,7 +300,7 @@
                     android:hint="5" />
 
                 <Button
-                    android:id="@+id/btn_huancongjiaodu_add"
+                    android:id="@+id/btn_xiazikangfu_huancongjiaodu_add"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -334,7 +334,7 @@
                     android:textSize="17.93px" />
 
                 <Button
-                    android:id="@+id/btn_tingliusicang_sub"
+                    android:id="@+id/btn_xiazikangfu_tingliusicang_sub"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -352,7 +352,7 @@
                     android:hint="5" />
 
                 <Button
-                    android:id="@+id/btn_tingliusicang_add"
+                    android:id="@+id/btn_xiazikangfu_tingliusicang_add"
                     android:layout_width="38px"
                     android:layout_height="38px"
                     android:layout_gravity="center_vertical"
@@ -426,7 +426,17 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="203px"
-                android:text="实时角度： 180度"
+                android:text="实时角度： "
+                android:textColor="#408650"
+                android:textSize="17.93px" />
+
+            <TextView
+                android:id="@+id/tv_xiazikangfu_sisijiaodu"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="180度"
                 android:textColor="#408650"
                 android:textSize="17.93px" />
 
@@ -436,7 +446,17 @@
                 android:layout_gravity="center_vertical"
                 android:gravity="center_vertical"
                 android:layout_marginLeft="80px"
-                android:text="锻炼时长：18分"
+                android:text="锻炼时长："
+                android:textColor="#408650"
+                android:textSize="17.93px" />
+
+            <TextView
+                android:id="@+id/tv_xiazikangfu_duanliansicang"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center_vertical"
+                android:gravity="center_vertical"
+                android:text="18分"
                 android:textColor="#408650"
                 android:textSize="17.93px" />
         </LinearLayout>
@@ -488,6 +508,7 @@
                 android:background="#d2d2d2" />
 
             <TextView
+                android:id="@+id/tv_xiazikangfu_duanliancisu"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:textSize="17.93px"
