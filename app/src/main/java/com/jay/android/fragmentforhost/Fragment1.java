@@ -36,8 +36,8 @@ public class Fragment1 extends Fragment {
     private static int fansencisu = 0;  // 翻身次数
 
     private static int fansenzouqi = 1; // 翻身周期是0-60分钟
-    private static int fansenjiaodu = 5; // 翻身角度是0-30度
-    private static int zongsicang = 10;  // 总时长是0-3600分
+    private static int fansenjiaodu = 5;// 翻身角度是0-30度
+    private static int zongsicang = 10; // 总时长是0-3600分
 
     @ViewById
     LinearLayout ll_cuanti_soudong;
@@ -81,8 +81,8 @@ public class Fragment1 extends Fragment {
             R.id.btn_cuangti_zidongfansen})
     List<Button> btns_cuangti;
 
-    //                                     起背,
-    private static Boolean buttonFlag[] = {true,true,true,true,true,true,true,true};
+    //                                     起背, 躺平, 抬腿,  折腿, 右翻身, 左翻身,自动, 复位
+    private static Boolean buttonFlag[] = {true, true, true, true, true, true, true, true};
     private static Boolean flag = true; // 为按钮控制开始和暂停的状态,true为开始,false为暂停
     private static Boolean autoFlag = false; // 为自动模式互锁控制状态,true为锁,false为不锁
     private static Boolean soudongFlag = false; // 为手动模式互锁控制状态,true为锁,false为不锁
@@ -104,8 +104,7 @@ public class Fragment1 extends Fragment {
     public void onAttach(Activity activity) {
         super.onAttach(activity);
         this.activity = activity;
-        bleHelp = new BLEHelp(activity, blecallback, "F4:B8:5E:E6:98:AC"); // 生产
-//        bleHelp = new BLEHelp(activity, blecallback, "78:A5:04:8D:18:2A"); // 开发
+        bleHelp = new BLEHelp(activity, blecallback, DataHelp.mac[0]);
     }
 
     // 滑块选择处理(手动,自动)
@@ -131,16 +130,16 @@ public class Fragment1 extends Fragment {
     }
 
 
-    @Click({R.id.btn_cuangti_qibei,       // 起背按钮
-            R.id.btn_cuangti_tangping,    // 躺平按钮
-            R.id.btn_cuangti_taitui,      // 抬腿按钮
-            R.id.btn_cuangti_zetui,       // 折腿按钮
-            R.id.btn_cuangti_youfansen,   // 右翻身按钮
-            R.id.btn_cuangti_zuofansen,   // 左翻身按钮
-            R.id.btn_cuangti_zidongfansen,// 自动翻身按钮
+    @Click({R.id.btn_cuangti_qibei,        // 起背按钮
+            R.id.btn_cuangti_tangping,     // 躺平按钮
+            R.id.btn_cuangti_taitui,       // 抬腿按钮
+            R.id.btn_cuangti_zetui,        // 折腿按钮
+            R.id.btn_cuangti_youfansen,    // 右翻身按钮
+            R.id.btn_cuangti_zuofansen,    // 左翻身按钮
+            R.id.btn_cuangti_zidongfansen, // 自动翻身按钮
             R.id.btn_cuangti_reset_soudong,// 手动复位按钮
             R.id.btn_cuangti_reset_auto})  // 自动复位按钮
-    void qibeiButtonClicked(View view) {
+    void cuangtiButtonClicked(View view) {
         switch (view.getId()){
             case R.id.btn_cuangti_qibei:
                 if(buttonFlag[0]){
@@ -316,14 +315,14 @@ public class Fragment1 extends Fragment {
     /**
      * 数据返回检查函数
      * 先判断长度为7
-     * 再判断B24E开头
+     * 再判断B2开头2B结尾
      * 然后送入状态检查
      * @param data_char
      */
     @Background
     public void ReviceDatas(final BluetoothGattCharacteristic data_char){
         byte[] datas = data_char.getValue();
-        UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
+//        UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
         if(datas.length == 8) {
             if(datas[0] == (byte)0xB2 && datas[5] == (byte)0x2B){
                 checkType(datas, data_char);
@@ -331,10 +330,11 @@ public class Fragment1 extends Fragment {
                 UIUtils.showToastSafe("数据报头或报尾校验错误 ");
                 UIUtils.showToastSafe("第0位是:" + datas[0] + "\n第5位是:" + datas[5]);
             }
-        }else{
-            UIUtils.showToastSafe("数据长度校验错误");
-            UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
         }
+//        else{
+//            UIUtils.showToastSafe("数据长度校验错误");
+//            UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
+//        }
     }
 
     /**
