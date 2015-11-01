@@ -78,7 +78,7 @@ public class Fragment4 extends Fragment {
         add(new byte[]{(byte) 0xb1, (byte) 0x1c, (byte) 0x08, (byte) 0x11, (byte) 0x00, (byte) 0x1b, (byte) 0x00, (byte) 0x00, (byte) 0x0d, (byte) 0x0a});//停留时长<60分，没有高八位,范围0<停留时长<锻炼时长，每按下一次加减号加减1分
     }};
 
-    // 编辑框组
+
     @ViewsById({R.id.edt_xiazikangfu_duanliansicang,
                 R.id.edt_xiazikangfu_jiaosudu,
                 R.id.edt_xiazikangfu_qisijiaodu,
@@ -87,9 +87,9 @@ public class Fragment4 extends Fragment {
                 R.id.edt_xiazikangfu_tingliusicang})
     List<EditText> edts_xiazikangfu;
 
-    @ViewById   // 机器准备按钮
+    @ViewById
     Button btn_xiazikangfu_jiqizunbei;
-    @ViewById   // 开始锻炼按钮
+    @ViewById
     Button btn_xiazikangfu_kaisiduanlian;
     @ViewById
     TextView tv_xiazikangfu_sisijiaodu;
@@ -108,31 +108,19 @@ public class Fragment4 extends Fragment {
         bleHelp = new BLEHelp(activity, blecallback, DataHelp.mac[3]);
     }
 
-    @Click({R.id.btn_xiazikangfu_jiqizunbei,    // 机器准备按钮
-            R.id.btn_xiazikangfu_kaisiduanlian})// 开始锻炼按钮
+    @Click({R.id.btn_xiazikangfu_jiqizunbei,
+            R.id.btn_xiazikangfu_kaisiduanlian})
     void xiazikangfuButtonClicked(View view) {
         switch (view.getId()){
             case R.id.btn_xiazikangfu_jiqizunbei:
                 if(buttonFlag[0]) {
                     bleHelp.sendDatas(DataHelp.XIAZIKANGFU_JIQIZUNBEI_STR, DataHelp.XIAZIKANGFU_JIQIZUNBEI);
-//                    btn_xiazikangfu_jiqizunbei.setBackgroundResource(R.drawable.btn_jiqizunbei_disable);
                 }
-//                else{
-//                    bleHelp.sendDatas(DataHelp.XIAZIKANGFU_JIQITINGZI_STR, DataHelp.XIAZIKANGFU_JIQITINGZI);
-//                    btn_xiazikangfu_jiqizunbei.setBackgroundResource(R.drawable.btn_jiqizunbei_normal);
-//                }
-//                buttonFlag[0] = !buttonFlag[0];
                 break;
             case R.id.btn_xiazikangfu_kaisiduanlian:
                 if(buttonFlag[1]) {
                     bleHelp.sendDatas(DataHelp.XIAZIKANGFU_DUANLIAN_START_STR, DataHelp.XIAZIKANGFU_DUANLIAN_START);
-//                    btn_xiazikangfu_kaisiduanlian.setBackgroundResource(R.drawable.btn_kaisiduanlian_press);
                 }
-//                else{
-//                    bleHelp.sendDatas(DataHelp.XIAZIKANGFU_DUANLIAN_PAUSE_STR, DataHelp.XIAZIKANGFU_DUANLIAN_PAUSE);
-//                    btn_xiazikangfu_kaisiduanlian.setBackgroundResource(R.drawable.btn_kaisiduanlian_normal);
-//                }
-//                buttonFlag[1] = !buttonFlag[1];
                 break;
         }
     }
@@ -269,7 +257,6 @@ public class Fragment4 extends Fragment {
         }
     }
 
-    // 设置回调方法
     private MTBLEMBLE.CallBack blecallback = new MTBLEMBLE.CallBack() {
 
         @Override
@@ -284,13 +271,6 @@ public class Fragment4 extends Fragment {
         public void onDisconnect() {}
     };
 
-    /**
-     * 数据返回检查函数
-     * 先判断长度为7
-     * 再判断B2开头2B结尾
-     * 然后送入状态检查
-     * @param data_char
-     */
     @Background
     public void ReviceDatas(final BluetoothGattCharacteristic data_char){
         byte[] datas = data_char.getValue();
@@ -303,18 +283,8 @@ public class Fragment4 extends Fragment {
                 UIUtils.showToastSafe("第0位是:" + datas[0] + "\n第5位是:" + datas[5]);
             }
         }
-//        else{
-//            UIUtils.showToastSafe("数据长度校验错误");
-//            UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
-//        }
     }
 
-    /**
-     * 判断返回数据的类型
-     * 根据第2位数据判断
-     * @param datas
-     * @param data_char
-     */
     @Background
     public void checkType(byte[] datas, final BluetoothGattCharacteristic data_char){
         String str_1 = "第2位错误";
@@ -345,13 +315,6 @@ public class Fragment4 extends Fragment {
         }
     }
 
-    /**
-     * 判断返回数据的状态
-     * 根据第4位数据判断
-     * @param datas
-     * @param str_1
-     * @param btn_id
-     */
     @Background
     public void checkButtonStatus(byte[] datas, String str_1, int btn_id){
         String str_2 = "第3位错误";
@@ -371,14 +334,9 @@ public class Fragment4 extends Fragment {
                 str_2 = "完成";
                 break;
         }
-//        syncButton(btn_id); // 同步按钮状态
         UIUtils.showToastSafe(str_1 + str_2);
     }
 
-    /**
-     * 同步按钮的状态
-     * @param datas
-     */
     @UiThread
     public void syncButton(byte[] datas){
         if(datas[1] == (byte)0x12 && datas[3] == (byte)0x02){

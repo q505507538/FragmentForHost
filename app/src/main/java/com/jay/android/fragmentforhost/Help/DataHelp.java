@@ -1,11 +1,7 @@
 package com.jay.android.fragmentforhost.Help;
 
 public class DataHelp {
-//    public static Boolean isConnected = false;
-    public final static String[] mac = new String[]{"F4:B8:5E:E6:98:AC","F4:B8:5E:E6:98:AC","F4:B8:5E:E6:98:AC","F4:B8:5E:E6:98:AC","F4:B8:5E:E6:98:AC"}; // 冯明敏
-//    public final static String mac[] = new String[]{"78:A5:04:8D:18:2A","78:A5:04:8D:18:2A","78:A5:04:8D:18:2A","78:A5:04:8D:18:2A","78:A5:04:8D:18:2A"}; // 开发
-//    public final static String mac[] = new String[]{"F4:B8:5E:E6:8C:1F","F4:B8:5E:E6:8C:1F","F4:B8:5E:E6:8C:1F","F4:B8:5E:E6:8C:1F","F4:B8:5E:E6:8C:1F"}; // 路桥
-//    public final static String mac[] = new String[]{"84:EB:18:6D:3E:A7","84:EB:18:6D:3E:A7","84:EB:18:6D:3E:A7","84:EB:18:6D:3E:A7","84:EB:18:6D:3E:A7"}; // 吴海滨
+    public final static String mac[] = new String[]{"78:A5:04:8D:18:2A","78:A5:04:8D:18:2A","78:A5:04:8D:18:2A","78:A5:04:8D:18:2A","78:A5:04:8D:18:2A"}; // 开发
 
     //起背
     public final static String CUANGTI_QIBEI_START_STR = "起背开始";

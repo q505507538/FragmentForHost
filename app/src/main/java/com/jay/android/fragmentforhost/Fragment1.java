@@ -31,13 +31,13 @@ public class Fragment1 extends Fragment {
     private byte[] sendbytes = null;
     private Activity activity;
 
-    private static int qibeicisu = 0;   // 起背次数
-    private static int wantuicisu = 0;  // 弯腿次数
-    private static int fansencisu = 0;  // 翻身次数
+    private static int qibeicisu = 0;
+    private static int wantuicisu = 0;
+    private static int fansencisu = 0;
 
-    private static int fansenzouqi = 1; // 翻身周期是0-60分钟
-    private static int fansenjiaodu = 5;// 翻身角度是0-30度
-    private static int zongsicang = 10; // 总时长是0-3600分
+    private static int fansenzouqi = 1;
+    private static int fansenjiaodu = 5;
+    private static int zongsicang = 10;
 
     @ViewById
     LinearLayout ll_cuanti_soudong;
@@ -81,11 +81,10 @@ public class Fragment1 extends Fragment {
             R.id.btn_cuangti_zidongfansen})
     List<Button> btns_cuangti;
 
-    //                                     起背, 躺平, 抬腿,  折腿, 右翻身, 左翻身,自动, 复位
     private static Boolean buttonFlag[] = {true, true, true, true, true, true, true, true};
-    private static Boolean flag = true; // 为按钮控制开始和暂停的状态,true为开始,false为暂停
-    private static Boolean autoFlag = false; // 为自动模式互锁控制状态,true为锁,false为不锁
-    private static Boolean soudongFlag = false; // 为手动模式互锁控制状态,true为锁,false为不锁
+    private static Boolean flag = true;
+    private static Boolean autoFlag = false;
+    private static Boolean soudongFlag = false;
 
     @Click(R.id.ll_cuanti_soudong)
     void cuantiSoudongLayoutClicked() {
@@ -107,7 +106,6 @@ public class Fragment1 extends Fragment {
         bleHelp = new BLEHelp(activity, blecallback, DataHelp.mac[0]);
     }
 
-    // 滑块选择处理(手动,自动)
     public void setChioceItem(int index) {
         switch (index) {
             case 0:
@@ -130,15 +128,15 @@ public class Fragment1 extends Fragment {
     }
 
 
-    @Click({R.id.btn_cuangti_qibei,        // 起背按钮
-            R.id.btn_cuangti_tangping,     // 躺平按钮
-            R.id.btn_cuangti_taitui,       // 抬腿按钮
-            R.id.btn_cuangti_zetui,        // 折腿按钮
-            R.id.btn_cuangti_youfansen,    // 右翻身按钮
-            R.id.btn_cuangti_zuofansen,    // 左翻身按钮
-            R.id.btn_cuangti_zidongfansen, // 自动翻身按钮
-            R.id.btn_cuangti_reset_soudong,// 手动复位按钮
-            R.id.btn_cuangti_reset_auto})  // 自动复位按钮
+    @Click({R.id.btn_cuangti_qibei,
+            R.id.btn_cuangti_tangping,
+            R.id.btn_cuangti_taitui,
+            R.id.btn_cuangti_zetui,
+            R.id.btn_cuangti_youfansen,
+            R.id.btn_cuangti_zuofansen,
+            R.id.btn_cuangti_zidongfansen,
+            R.id.btn_cuangti_reset_soudong,
+            R.id.btn_cuangti_reset_auto})
     void cuangtiButtonClicked(View view) {
         switch (view.getId()){
             case R.id.btn_cuangti_qibei:
@@ -216,20 +214,20 @@ public class Fragment1 extends Fragment {
         sendbytes = CRCHelp.CRC16(fansenzouqi_data, 6);
         bleHelp.sendDatas("翻身周期", sendbytes);
         try {
-            Thread.currentThread().sleep(100);//毫秒
+            Thread.currentThread().sleep(100);
         }catch(Exception e){}
         fansenjiaodu_data[3] = (byte) fansenjiaodu;
         sendbytes = CRCHelp.CRC16(fansenjiaodu_data, 6);
         bleHelp.sendDatas("翻身角度", sendbytes);
         try {
-            Thread.currentThread().sleep(100);//毫秒
+            Thread.currentThread().sleep(100);
         }catch(Exception e){}
         zongsicang_data[4] = (byte) (zongsicang / 255);
         zongsicang_data[3] = (byte) (zongsicang % 255);
         sendbytes = CRCHelp.CRC16(zongsicang_data, 6);
         bleHelp.sendDatas("总时长", sendbytes);
         try {
-            Thread.currentThread().sleep(100);//毫秒
+            Thread.currentThread().sleep(100);
         }catch(Exception e){}
     }
 
@@ -297,7 +295,6 @@ public class Fragment1 extends Fragment {
         }
     }
 
-    // 设置回调方法
     private MTBLEMBLE.CallBack blecallback = new MTBLEMBLE.CallBack() {
 
         @Override
@@ -312,17 +309,9 @@ public class Fragment1 extends Fragment {
         public void onDisconnect() {}
     };
 
-    /**
-     * 数据返回检查函数
-     * 先判断长度为7
-     * 再判断B2开头2B结尾
-     * 然后送入状态检查
-     * @param data_char
-     */
     @Background
     public void ReviceDatas(final BluetoothGattCharacteristic data_char){
         byte[] datas = data_char.getValue();
-//        UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
         if(datas.length == 8) {
             if(datas[0] == (byte)0xB2 && datas[5] == (byte)0x2B){
                 checkType(datas, data_char);
@@ -331,18 +320,8 @@ public class Fragment1 extends Fragment {
                 UIUtils.showToastSafe("第0位是:" + datas[0] + "\n第5位是:" + datas[5]);
             }
         }
-//        else{
-//            UIUtils.showToastSafe("数据长度校验错误");
-//            UIUtils.showToastSafe(HexUtils.Bytes2HexString(datas));
-//        }
     }
 
-    /**
-     * 判断返回数据的类型
-     * 根据第1位数据判断
-     * @param datas
-     * @param data_char
-     */
     @Background
     public void checkType(byte[] datas, final BluetoothGattCharacteristic data_char){
         String[] str_1 = new String[]{"第1位错误","起背","躺平","抬腿","折腿","右翻身","左翻身","自动翻身","复位","急停","腿部角度","背部角度","起背次数","弯腿次数","翻身次数"};
@@ -356,40 +335,28 @@ public class Fragment1 extends Fragment {
         }
     }
 
-    /**
-     * 判断返回数据的状态
-     * 根据第3位数据判断
-     * @param datas
-     * @param str_1
-     * @param btn_id
-     */
     @Background
     public void checkButtonStatus(byte[] datas, String str_1, int btn_id){
         String str_2 = "第3位错误";
         switch(datas[3]){
             case (byte) 0x02:
-                str_2 = "执行中"; // 锁定按钮
+                str_2 = "执行中";
                 break;
             case (byte) 0x04:
                 str_2 = "暂停";
-                if(datas[1] == 7) btn_id = -2; // 自动翻身暂停时锁定按钮
-                else btn_id = -1; // 不锁定按钮
+                if(datas[1] == 7) btn_id = -2;
+                else btn_id = -1;
                 break;
             case (byte)0x08:
                 str_2 = "完成";
-                if(datas[1] == 7) btn_id = -2; // 自动翻身暂停时锁定按钮
-                else btn_id = -1; // 不锁定按钮
+                if(datas[1] == 7) btn_id = -2;
+                else btn_id = -1;
                 break;
         }
-        syncButton(btn_id); // 同步按钮状态
+        syncButton(btn_id);
         UIUtils.showToastSafe(str_1 + str_2);
     }
 
-    /**
-     * 同步按钮的状态
-     * buttonFlag表示6个按钮的状态, false表示锁,true表示不锁
-     * @param btn_id 第几个按钮需要设置为disable, -1表示全部设置为disable
-     */
     @UiThread
     public void syncButton(int btn_id){
         String[] name = new String[] { "qibei", "tangping", "taitui", "zetui", "youfansen", "zuofansen", "zidongfansen" };
